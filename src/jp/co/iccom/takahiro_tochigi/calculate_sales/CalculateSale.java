@@ -2,6 +2,7 @@ package jp.co.iccom.takahiro_tochigi.calculate_sales;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ public class CalculateSale {
 
 		HashMap<String,String> branchlist =new  HashMap<String,String>();//データを保持するmap作成
 		HashMap<String,String> commoditylist = new  HashMap<String,String>();//データを保持するmap作成
+ 		ArrayList<File> allfile = new ArrayList<File>();//売上ファイルのリストを保持するためのリスト
+
 
 		String stBufferBR = ""; //戻り値を格納
 		String stBufferCO = ""; //戻り値を格納
@@ -21,7 +24,7 @@ public class CalculateSale {
 			File  filea =new  File(args[0], "branch.lst");
 			FileReader fra = new FileReader(filea);
 			BufferedReader bra = new BufferedReader(fra);//fileの入力
-			//System.out.println(br);
+			//System.out.println(bra);
 
 			while ((stBufferBR = bra.readLine()) != null){
 				String[] namea = stBufferBR.split(",");//
@@ -53,23 +56,53 @@ public class CalculateSale {
 			System.out.println(e);
 		}
 
-		//ディレクトリー内のファイル一覧の読込・・・
+		//ディレクトリー内から.rcdファイル一覧の読込・・・
  		File dir = new File(args[0]);
  		File[] files = dir.listFiles();
- 		ArrayList<File> allfile = new ArrayList<File>();
  		for (int i = 0; i < files.length; i++) {
- 			if(files[i].getName().endsWith(".rcd")){
- 				allfile.add(files[i]);
-		 		System.out.println(allfile);
+			if(files[i].getName().endsWith(".rcd")){
+				allfile.add(files[i]);
+		 		//System.out.println(allfile);
 		 	}
- 		}//<<<拡張子でとり出すif文の挿入は?
+		}//
 
  		// 連番確認
+ 		ArrayList<Integer> numberfile = new ArrayList<Integer>();
+ 		for (int i = 0; i < allfile.size(); i++) {
+ 			String fileName = allfile.get(i).getName();
+ 			String number = fileName.split("\\.")[0];
+ 			int inumber = Integer.parseInt(number);
+ 			//System.out.println(Integer.parseInt(allfile.get(i).getName().split("\\.")[0]));
+ 			numberfile.add(inumber);
+ 			//System.out.println(numberfile);
 
- 		// allfileに入っているrcdファイルを繰り返し処理で開いていく
+ 			if(numberfile.size() == numberfile.get(numberfile.size() - 1)){
 
+ 			}else{
+ 			System.out.println("売上ファイルが連番になっていません。");
+ 			//実行処理を出た時点で終了するように処理してください。
+ 			}
+ 		}
+ 		for(int i = 0; i<allfile.size(); i++){
+ 			try {
+				FileReader fru =new FileReader(allfile.get(i));
+				BufferedReader brf = new BufferedReader(fru);
+				
+				while{
+					
+				}
+				//格納するものが必要になる
+				//
+				}
+				
+				brf.close();
+			} catch (FileNotFoundException e) {
 
+			}
+ 		}
+ 	}
+	// allfileに入っているrcdファイルを繰り返し処理で開いていく
 
-	}
 }
+
 
