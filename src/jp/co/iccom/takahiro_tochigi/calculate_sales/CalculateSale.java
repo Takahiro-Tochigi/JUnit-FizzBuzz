@@ -15,10 +15,12 @@ public class CalculateSale {
 		HashMap<String,String> branchlist =new  HashMap<String,String>();//データを保持するmap作成
 		HashMap<String,String> commoditylist = new  HashMap<String,String>();//データを保持するmap作成
  		ArrayList<File> allfile = new ArrayList<File>();//売上ファイルのリストを保持するためのリスト
-
+ 
 
 		String stBufferBR = ""; //戻り値を格納
 		String stBufferCO = ""; //戻り値を格納
+
+
 
 		try{
 			File  filea =new  File(args[0], "branch.lst");
@@ -83,25 +85,35 @@ public class CalculateSale {
  			//実行処理を出た時点で終了するように処理してください。
  			}
  		}
+ 		//allfileに入っているrcdファイルを繰り返し処理で開いていく
+
  		for(int i = 0; i<allfile.size(); i++){
+ 			ArrayList<String> extraction = new ArrayList<>();
  			try {
 				FileReader fru =new FileReader(allfile.get(i));
 				BufferedReader brf = new BufferedReader(fru);
-				
-				while{
-					
+				String extra  ;
+				while((extra = brf.readLine())  != null){
+					extraction.add(extra);
+					//抽出処理失敗のif文
 				}
-				//格納するものが必要になる
-				//
-				}
+				//System.out.println(extraction);
+				// 集計
+				HashMap<String,Integer> store =new HashMap<>();
+				int money= new Integer(extraction.get(2)).intValue();//String型をint型に
+				String storeNumber =extraction.get(0);
 				
-				brf.close();
-			} catch (FileNotFoundException e) {
+				store.put(storeNumber, money);
+				
+				
+			brf.close();
+			}catch (FileNotFoundException e) {
+
+			}catch (IOException e ){
 
 			}
  		}
  	}
-	// allfileに入っているrcdファイルを繰り返し処理で開いていく
 
 }
 
