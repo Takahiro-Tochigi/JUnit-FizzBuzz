@@ -12,16 +12,17 @@ public class CalculateSale {
 
 	public static void main(String[] args){
 
-		HashMap<String,String> branchlist =new  HashMap<String,String>();//データを保持するmap作成
-		HashMap<String,String> commoditylist = new  HashMap<String,String>();//データを保持するmap作成
+		HashMap<String,String> branchList =new  HashMap<String,String>();//データを保持するmap作成
+		HashMap<String,String> commodityList = new  HashMap<String,String>();//データを保持するmap作成
  		ArrayList<File> allfile = new ArrayList<File>();//売上ファイルのリストを保持するためのリスト
- 
-
+ 		HashMap<String,Integer> store = new HashMap<>();//支店の売上合計を計算するため
+ 		HashMap<String,Integer> product = new HashMap<>();//商品の売上合計を計算するため
+ 		
 		String stBufferBR = ""; //戻り値を格納
 		String stBufferCO = ""; //戻り値を格納
 
 
-
+//支店番号と支店名のハッシュマップ
 		try{
 			File  filea =new  File(args[0], "branch.lst");
 			FileReader fra = new FileReader(filea);
@@ -30,7 +31,9 @@ public class CalculateSale {
 
 			while ((stBufferBR = bra.readLine()) != null){
 				String[] namea = stBufferBR.split(",");//
-				branchlist.put(namea[0],namea[1]);
+				branchList.put(namea[0],namea[1]);
+				//全店舗分の金額の初期化、
+				store.put(namea[0], 0);
 			}
 			bra.close();
 		}catch(IOException e){
@@ -46,7 +49,9 @@ public class CalculateSale {
 
 			while ((stBufferCO = brb.readLine())  != null){
 				String[] nameb = stBufferCO.split(",");
-				commoditylist.put(nameb[0],nameb[1]);
+				commodityList.put(nameb[0],nameb[1]);
+				product.put(nameb[0], 0);
+			
 			};
 			//System.out.println(branchlist);//確認のため分割した配列の表示
 			//System.out.println(commoditylist);
@@ -86,35 +91,78 @@ public class CalculateSale {
  			}
  		}
  		//allfileに入っているrcdファイルを繰り返し処理で開いていく
-
  		for(int i = 0; i<allfile.size(); i++){
  			ArrayList<String> extraction = new ArrayList<>();
  			try {
 				FileReader fru =new FileReader(allfile.get(i));
 				BufferedReader brf = new BufferedReader(fru);
 				String extra  ;
+				int nLine = 0;
 				while((extra = brf.readLine())  != null){
+					nLine++;
 					extraction.add(extra);
 					//抽出処理失敗のif文
+					
+					//4行以上の場合のエラー
+					if(nLine > 3){
+						System.out.println("<該当ファイル名>のフォーマットが不明です");
+						break;
+					}
 				}
 				//System.out.println(extraction);
-				// 集計
-				HashMap<String,Integer> store =new HashMap<>();
-				int money= new Integer(extraction.get(2)).intValue();//String型をint型に
-				String storeNumber =extraction.get(0);
+				// 集計処理
 				
-				store.put(storeNumber, money);
+				// 足したい値を取得
+				int e = Integer.parseInt(extraction.get(2));
+				//System.out.println(e);
 				
+				// 既存の値を取得
+				int s = store.get(extraction.get(0));
+				int p = product.get(extraction.get(1));
 				
+				// 合計　=　足したい値　+　既存の値
+				int m = e + s;
+				int n = e + p;
+				 //合計を格納
+				
+				store.put(extraction.get(0),m);
+				product.put(extraction.get(1),n);
+				
+				//11桁以上のの場合10桁を超えましたを表示
+				int ketaA =Integer.toString(m).length();
+				int ketaB =Integer.toString(n).length();
+				if(10< ketaA || 10< ketaB){
+					System.out.println("合計金額が10桁を超えました。");
+					break;
+				}
 			brf.close();
+			
 			}catch (FileNotFoundException e) {
-
+				
 			}catch (IOException e ){
-
-			}
+			} 			
  		}
- 	}
+		
+		//System.out.println(product);
+		
+		//コマンドライン引数で指定されたディレクトリに支店別集計ファイルを作成する。
+		/*try{
+			File directry1 = new File("branch.out");
+			if(directry1.mkdir()){
+				System.out.println(directry1 +"を作成");
+			}
 
+			File file =new File	(args[0], "branch.out");
+			FileWriter fw = new FileWriter(file);
+			BufferedWriter bw =new BufferedWriter(fw);
+			PrintWriter pw = new PrintWriter(bw);
+			
+			
+			
+		}catch(IOException){
+			
+		}*/
+ 	}
 }
 
 
