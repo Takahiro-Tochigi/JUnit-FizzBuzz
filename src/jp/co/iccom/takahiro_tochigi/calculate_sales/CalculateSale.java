@@ -24,11 +24,11 @@ public class CalculateSale {
 		ArrayList<File> allfile = new ArrayList<File>();//売上ファイルのリストを保持するためのリスト
 		HashMap<String,Integer> store = new HashMap<>();//支店の売上合計を保持する
 		HashMap<String,Integer> product = new HashMap<>();//商品の売上合計を保持する
-		
+
 		String stBufferBR = ""; //戻り値を格納
 		String stBufferCO = ""; //戻り値を格納
-		
-		
+
+
 		//支店番号と支店名のハッシュマップ
 		try{
 			File  filea =new  File(args[0], "branch.lst");
@@ -58,7 +58,7 @@ public class CalculateSale {
 				String[] nameb = stBufferCO.split(",");
 				commodityList.put(nameb[0],nameb[1]);
 				product.put(nameb[0], 0);
-			
+
 			};
 			//System.out.println(branchList);//確認のため分割した配列の表示
 			//System.out.println(commoditylist);
@@ -110,7 +110,7 @@ public class CalculateSale {
 					nLine++;
 					extraction.add(extra);
 					//抽出処理失敗のif文
-					
+
 					//4行以上の場合のエラー
 					if(nLine > 3){
 						System.out.println("<該当ファイル名>のフォーマットが不明です");
@@ -119,23 +119,23 @@ public class CalculateSale {
 				}
 				//System.out.println(extraction);
 				// 集計処理
-				
+
 				// 足したい値を取得
 				int e = Integer.parseInt(extraction.get(2));
 				//System.out.println(e);
-				
+
 				// 既存の値を取得
 				int s = store.get(extraction.get(0));
 				int p = product.get(extraction.get(1));
-				
+
 				// 合計　=　足したい値　+　既存の値
 				int m = e + s;
 				int n = e + p;
 				 //合計を格納
-				
+
 				store.put(extraction.get(0),m);
 				product.put(extraction.get(1),n);
-				
+
 				//11桁以上のの場合10桁を超えましたを表示
 				int ketaA =Integer.toString(m).length();
 				int ketaB =Integer.toString(n).length();
@@ -144,52 +144,53 @@ public class CalculateSale {
 					break;
 				}
 			brf.close();
-			
+
 			}catch (FileNotFoundException e) {
-				
+
 			}catch (IOException e ){
-			} 			
+			}
 		}
 		//支店別集計ファイル　降順
-		List<Map.Entry<String,Integer>> entries = 
-		new ArrayList<Map.Entry<String,Integer>>(store.entrySet());
+		List<Map.Entry<String,Integer>> entries =
+					new ArrayList<Map.Entry<String,Integer>>(store.entrySet());
+
 		Collections.sort(entries, new Comparator<Map.Entry<String,Integer>>() {
-		public int compare(
-		Entry<String,Integer> entry1, Entry<String,Integer> entry2) {
-		return ((Integer)entry2.getValue()).compareTo((Integer)entry1.getValue());
-		}
-		}); 
+			@Override
+			public int compare(Entry<String,Integer> entry1, Entry<String,Integer> entry2) {
+					return ((Integer)entry2.getValue()).compareTo((Integer)entry1.getValue());
+			}
+		});
 		/*for (Entry<String,Integer> s : entries) {
 			System.out.println("s.getKey() : " + s.getKey());
 			System.out.println("s.getValue() : " + s.getValue());
 		}*/
 		//System.out.println(entries);
 		//
-		
+
 		//商品別集計ファイル　降順
-		List<Map.Entry<String,Integer>> commoditydown = 
+		List<Map.Entry<String,Integer>> commoditydown =
 		new ArrayList<Map.Entry<String,Integer>>(product.entrySet());
 		Collections.sort( commoditydown, new Comparator<Map.Entry<String,Integer>>() {
 		public int compare(
 		Entry<String,Integer> entry1, Entry<String,Integer> entry2) {
 		return ((Integer)entry2.getValue()).compareTo((Integer)entry1.getValue());
 		}
-		}); 		
+		});
 		//支店別売上集計ファイルに出力するためのレイアウト
 		/* for(String branchKey :branchList.keySet()){
-			 System.out.println( branchKey + "," 
+			 System.out.println( branchKey + ","
 		 + branchList.get(branchKey)+","+ store.get(branchKey));
          }
 		 //商品別売上集計ファイルに出力するためのレイアウト
 		 for(String commodityKey :commodityList.keySet()){
-             System.out.println( commodityKey + "," 
+             System.out.println( commodityKey + ","
 		 + commodityList.get(commodityKey)+","+ product.get(commodityKey));
          }*/
 		//System.out.println(product);
-		
+
 		//作成したファイルに集計ファイルを合計金額の降順で出力
- 		
- 		
+
+
 		try {
 			File branchOutFile = new File(args[0], "branch.out");
 			FileWriter fileWriter = new FileWriter(branchOutFile);
@@ -197,7 +198,7 @@ public class CalculateSale {
 			PrintWriter pw = new PrintWriter(bw);
 			//
 			for (Entry<String,Integer> s : entries) {
-				pw.println( s.getKey() + "," 
+				pw.println( s.getKey() + ","
 			+ branchList.get( s.getKey() )+","+ store.get( s.getKey() ) );
 			}
 			pw.close();
@@ -212,7 +213,7 @@ public class CalculateSale {
 			PrintWriter pw = new PrintWriter(bw);
 			//
 			for (Entry<String,Integer> s : commoditydown) {
-				pw.println( s.getKey() + "," 
+				pw.println( s.getKey() + ","
 			+ commodityList.get( s.getKey() )+","+ product.get( s.getKey() ) );
 			}
 			pw.close();
