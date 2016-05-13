@@ -118,13 +118,7 @@ public class CalculateSale {
 	 			String number = fileName.split("\\.")[0];
 	 			long intNumber = Long.parseLong(number);
 	 			numberfile.add(intNumber);
-	 		/*
-	 		歯抜けになっている場合 behaves like 連番でない should eq "売上ファイル名が連番になっていません\n"
-	 		連番最大値ではないフォルダーが含まれている場合 behaves like 連番でない should eq "売上ファイル名が連番になっていません\n"
-	 		拡張子がrcdでなくかつ連番最大値ではない場合 behaves like 連番でない should eq "売上ファイル名が連番になっていません\n"
-	 		ファイル名の先頭にゴミがついている場合 behaves like 連番でない should eq "売上ファイル名が連番になっていません\n"
-	 		ファイル名の末尾にゴミがついている場合 behaves like 連番でない should eq "売上ファイル名が連番になっていません\n"
-	 		*/
+
 	 			if(!(numberfile.size() == numberfile.get(numberfile.size() - 1))){
 	 				System.out.println("売上ファイル名が連番になっていません");
 				return;
