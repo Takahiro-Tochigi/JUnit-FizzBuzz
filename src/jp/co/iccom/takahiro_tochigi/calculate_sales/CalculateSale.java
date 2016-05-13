@@ -34,71 +34,76 @@ public class CalculateSale {
 		try{
 			//支店番号と支店名のハッシュマップ
 			File  fileBranch = new  File(args[0], "branch.lst");
-			FileReader fileReadBranch = new FileReader(fileBranch);
-			BufferedReader bufferedReaderBranch = new BufferedReader(fileReadBranch);//fileの入力
-			try{
-				while (( stringBufferedBranch = bufferedReaderBranch.readLine()) != null){
-					String[] branchContents = stringBufferedBranch.split(",");
-					if(branchContents[0].matches("^[0-9]{3}$")){
-						if(branchContents.length == 2){
-							branchList.put(branchContents[0],branchContents[1]);
-							//全店舗分の金額の初期化、
-							branchEarnings.put(branchContents[0], (long) 0);
-							}else{
-								System.out.println("支店定義ファイルのフォーマットが不正です");
-								return;
-							}
-					}else{
-						System.out.println("支店定義ファイルのフォーマットが不正です");
-						return;
+			if(fileBranch.exists()){
+				FileReader fileReadBranch = new FileReader(fileBranch);
+				BufferedReader bufferedReaderBranch = new BufferedReader(fileReadBranch);//fileの入力
+				try{
+					while (( stringBufferedBranch = bufferedReaderBranch.readLine()) != null){
+						String[] branchContents = stringBufferedBranch.split(",");
+						if(branchContents[0].matches("^[0-9]{3}$")){
+							if(branchContents.length == 2){
+								branchList.put(branchContents[0],branchContents[1]);
+								//全店舗分の金額の初期化、
+								branchEarnings.put(branchContents[0], (long) 0);
+								}else{
+									System.out.println("支店定義ファイルのフォーマットが不正です");
+									return;
+								}
+						}else{
+							System.out.println("支店定義ファイルのフォーマットが不正です");
+							return;
+						}
 					}
+				}catch(IOException e){
+					System.out.println(e);
+				}finally{
+					bufferedReaderBranch.close();
 				}
-			}catch(IOException e){
-				System.out.println(e);
-			}finally{
-				bufferedReaderBranch.close();
+			}else{
+				System.out.println("支店定義ファイルが存在しません");
+				return;
 			}
-		}catch(FileNotFoundException e){
-			System.out.println("支店定義ファイルが存在しません");//ファイルの存在に関するエラー
 		}catch(IOException e){
-
+			System.out.println("予期せぬエラーが発生しました");
 		}
 		try{
 			File  fileCommodity =new  File(args[0],"commodity.lst");
-			FileReader fileReaderCommodity = new FileReader(fileCommodity);
-			BufferedReader bufferedReaderCommodity = new BufferedReader(fileReaderCommodity);//fileの入力
-			try{
-				while (( stringBufferedCommodity = bufferedReaderCommodity.readLine())  != null){
-					String[]commodityContents =  stringBufferedCommodity.split(",");
-					if(commodityContents[0].matches("^[A-Z0-9]{8}$")){
-						if(commodityContents.length == 2){
-						commodityList.put(commodityContents[0],commodityContents[1]);
-						//全商品分の金額の初期化
-						commodityEarnings.put(commodityContents[0], (long) 0);
+			if(fileCommodity.exists()){
+				FileReader fileReaderCommodity = new FileReader(fileCommodity);
+				BufferedReader bufferedReaderCommodity = new BufferedReader(fileReaderCommodity);//fileの入力
+				try{
+					while (( stringBufferedCommodity = bufferedReaderCommodity.readLine())  != null){
+						String[]commodityContents =  stringBufferedCommodity.split(",");
+						if(commodityContents[0].matches("^[A-Z0-9]{8}$")){
+							if(commodityContents.length == 2){
+							commodityList.put(commodityContents[0],commodityContents[1]);
+							//全商品分の金額の初期化
+							commodityEarnings.put(commodityContents[0], (long) 0);
+							}else{
+								System.out.println("商品定義ファイルのフォーマットが不正です");
+								return;
+							}
 						}else{
 							System.out.println("商品定義ファイルのフォーマットが不正です");
 							return;
 						}
-					}else{
-						System.out.println("商品定義ファイルのフォーマットが不正です");
-						return;
-					}
-				};
-			}catch(IOException e){
+					};
+				}catch(IOException e){
+					System.out.println("予期せぬエラーが発生しました");
+				}finally{
+					bufferedReaderCommodity.close();
+				}
+			}else{
 				System.out.println("商品定義ファイルが存在しません");//ファイルの存在に関するエラー
-				System.out.println(e);
-			}finally{
-				bufferedReaderCommodity.close();
-
+				return;
 			}
-		}catch(FileNotFoundException e){
-			System.out.println("商品定義ファイルが存在しません");//ファイルの存在に関するエラー
 		}catch(IOException e){
-
+			System.out.println("予期せぬエラーが発生しました");
 		}
 
 		try{
 			//ディレクトリー内から.rcdファイル一覧の読込・・・
+
 	 		File directry = new File(args[0]);
 	 		File[] files = directry.listFiles();
 	 		for (int i = 0; i < files.length; i++) {
@@ -131,7 +136,6 @@ public class CalculateSale {
 					while((extra = bufferedReaderRcd.readLine())  != null){
 						extraction.add(extra);
 					}
-					//4行以上の場合のエラー
 					if(extraction.size() != 3){
 						System.out.println(files[i].getName()+"のフォーマットが不正です");
 						return;
@@ -163,7 +167,7 @@ public class CalculateSale {
 					int ketaB =Integer.toString((int)totalFeeCommodity).length();
 					if(10 < ketaA || 10 < ketaB){
 						System.out.println("合計金額が10桁を超えました");
-						break;
+						return;
 					}
 				}catch(FileNotFoundException e) {
 					System.out.println("予期せぬエラーが発生しました");
