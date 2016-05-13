@@ -123,7 +123,6 @@ public class CalculateSale {
 					return;
 				}
 			}
-			//allfileに入っているrcdファイルを繰り返し処理で開いていく
 			for(int i = 0; i<allrcdFile.size(); i++){
 				ArrayList<String> extraction = new ArrayList<>();//抽出した売上ファイルを保持するリスト
 				FileReader fileReaderRcd = new FileReader( allrcdFile.get(i) );
