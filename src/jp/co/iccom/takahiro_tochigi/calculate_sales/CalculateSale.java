@@ -117,12 +117,16 @@ public class CalculateSale {
 	 			String fileName = allrcdFile.get(i).getName();
 	 			String number = fileName.split("\\.")[0];
 	 			long intNumber = Long.parseLong(number);
-	 			//System.out.println(Integer.parseInt(allfile.get(i).getName().split("\\.")[0]));
-	 			System.out.println(intNumber);
 	 			numberfile.add(intNumber);
-	 			//System.out.println(numberfile);
+	 		/*
+	 		歯抜けになっている場合 behaves like 連番でない should eq "売上ファイル名が連番になっていません\n"
+	 		連番最大値ではないフォルダーが含まれている場合 behaves like 連番でない should eq "売上ファイル名が連番になっていません\n"
+	 		拡張子がrcdでなくかつ連番最大値ではない場合 behaves like 連番でない should eq "売上ファイル名が連番になっていません\n"
+	 		ファイル名の先頭にゴミがついている場合 behaves like 連番でない should eq "売上ファイル名が連番になっていません\n"
+	 		ファイル名の末尾にゴミがついている場合 behaves like 連番でない should eq "売上ファイル名が連番になっていません\n"
+	 		*/
 	 			if(!(numberfile.size() == numberfile.get(numberfile.size() - 1))){
-				System.out.println("売上ファイル名が連番になっていません");
+	 				System.out.println("売上ファイル名が連番になっていません");
 				return;
 	 			}
 	 		}
@@ -149,10 +153,8 @@ public class CalculateSale {
 						return;
 					}
 					// 集計処理
-					System.out.println(extraction);
 					// 足したい値を取得
 					long extraprice = Long.parseLong(extraction.get(2));
-					//System.out.println(e);
 					// 既存の値を取得
 					long branchAggregatedPrice = branchEarnings.get(extraction.get(0));
 					long commodityAggregatedPrice = commodityEarnings.get(extraction.get(1));
@@ -163,8 +165,8 @@ public class CalculateSale {
 					branchEarnings.put( extraction.get(0) , totalFeeBranch );
 					commodityEarnings.put( extraction.get(1) , totalFeeCommodity );
 					//11桁以上のの場合10桁を超えましたを表示
-					int ketaA =Integer.toString((int) totalFeeBranch).length();
-					int ketaB =Integer.toString((int)totalFeeCommodity).length();
+					int ketaA =  String.valueOf(totalFeeBranch).length();
+					int ketaB =  String.valueOf(totalFeeCommodity).length();
 					if(10 < ketaA || 10 < ketaB){
 						System.out.println("合計金額が10桁を超えました");
 						return;
