@@ -152,7 +152,7 @@ public class CalculateSale {
 					// 既存の値を取得
 					long branchAggregatedPrice = branchEarnings.get(extraction.get(0));
 					long commodityAggregatedPrice = commodityEarnings.get(extraction.get(1));
-					// 合計　=　足したい値　+　既存の値
+					// 合計 = 足したい値 + 既存の値
 					long totalFeeBranch = extraprice + branchAggregatedPrice;
 					long totalFeeCommodity = extraprice + commodityAggregatedPrice;
 					//合計を格納
@@ -204,6 +204,7 @@ public class CalculateSale {
 			}finally{
 				printWriterBranch.close();
 			}
+
 			File commodityOutFile = new File(args[0], "commodity.out");
 			FileWriter fileWriterCommodity = new FileWriter(commodityOutFile);
 			BufferedWriter bufferWriterCommodity = new BufferedWriter(fileWriterCommodity);
