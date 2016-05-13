@@ -26,34 +26,44 @@ public class CalculateSale {
 		HashMap<String,String> branchList =new  HashMap<String,String>();//データを保持するmap作成
 		HashMap<String,String> commodityList = new  HashMap<String,String>();//データを保持するmap作成
 		ArrayList<File> allrcdFile = new ArrayList<File>();//全ての.rcdファイルのリストを保持する
-		HashMap<String,Integer> branchEarnings = new HashMap<>();//支店の売上合計を保持する
-		HashMap<String,Integer> commodityEarnings = new HashMap<>();//商品の売上合計を保持する
+		HashMap<String,Long> branchEarnings = new HashMap<>();//支店の売上合計を保持する
+		HashMap<String,Long> commodityEarnings = new HashMap<>();//商品の売上合計を保持する
 		String stringBufferedBranch = ""; //戻り値を格納
 		String stringBufferedCommodity = ""; //戻り値を格
 
 		try{
 			//支店番号と支店名のハッシュマップ
-			File  fileBranch =new  File(args[0], "branch.lst");
+			File  fileBranch = new  File(args[0], "branch.lst");
 			FileReader fileReadBranch = new FileReader(fileBranch);
 			BufferedReader bufferedReaderBranch = new BufferedReader(fileReadBranch);//fileの入力
 			try{
 				while (( stringBufferedBranch = bufferedReaderBranch.readLine()) != null){
 					String[] branchContents = stringBufferedBranch.split(",");
 					if(branchContents[0].matches("^[0-9]{3}$")){
-						branchList.put(branchContents[0],branchContents[1]);
-						//全店舗分の金額の初期化、
-						branchEarnings.put(branchContents[0], 0);
+						if(branchContents.length == 2){
+							branchList.put(branchContents[0],branchContents[1]);
+							//全店舗分の金額の初期化、
+							branchEarnings.put(branchContents[0], (long) 0);
+							}else{
+								System.out.println("支店定義ファイルのフォーマットが不正です");
+								return;
+							}
 					}else{
 						System.out.println("支店定義ファイルのフォーマットが不正です");
 						return;
 					}
 				}
 			}catch(IOException e){
-				System.out.println("支店定義ファイルが存在しません");//ファイルの存在に関するエラー
 				System.out.println(e);
 			}finally{
 				bufferedReaderBranch.close();
 			}
+		}catch(FileNotFoundException e){
+			System.out.println("支店定義ファイルが存在しません");//ファイルの存在に関するエラー
+		}catch(IOException e){
+
+		}
+		try{
 			File  fileCommodity =new  File(args[0],"commodity.lst");
 			FileReader fileReaderCommodity = new FileReader(fileCommodity);
 			BufferedReader bufferedReaderCommodity = new BufferedReader(fileReaderCommodity);//fileの入力
@@ -61,9 +71,14 @@ public class CalculateSale {
 				while (( stringBufferedCommodity = bufferedReaderCommodity.readLine())  != null){
 					String[]commodityContents =  stringBufferedCommodity.split(",");
 					if(commodityContents[0].matches("^[A-Z0-9]{8}$")){
+						if(commodityContents.length == 2){
 						commodityList.put(commodityContents[0],commodityContents[1]);
-						//全店舗分の金額の初期化、
-						commodityEarnings.put(commodityContents[0], 0);
+						//全商品分の金額の初期化
+						commodityEarnings.put(commodityContents[0], (long) 0);
+						}else{
+							System.out.println("商品定義ファイルのフォーマットが不正です");
+							return;
+						}
 					}else{
 						System.out.println("商品定義ファイルのフォーマットが不正です");
 						return;
@@ -74,7 +89,15 @@ public class CalculateSale {
 				System.out.println(e);
 			}finally{
 				bufferedReaderCommodity.close();
+
 			}
+		}catch(FileNotFoundException e){
+			System.out.println("商品定義ファイルが存在しません");//ファイルの存在に関するエラー
+		}catch(IOException e){
+
+		}
+
+		try{
 			//ディレクトリー内から.rcdファイル一覧の読込・・・
 	 		File directry = new File(args[0]);
 	 		File[] files = directry.listFiles();
@@ -84,16 +107,17 @@ public class CalculateSale {
 			 	}
 			}
 	 		// 連番確認
-	 		ArrayList<Integer> numberfile = new ArrayList<Integer>();
+	 		ArrayList<Long> numberfile = new ArrayList<Long>();
 	 		for (int i = 0; i < allrcdFile.size(); i++) {
 	 			String fileName = allrcdFile.get(i).getName();
 	 			String number = fileName.split("\\.")[0];
-	 			int intNumber = Integer.parseInt(number);
+	 			long intNumber = Long.parseLong(number);
 	 			//System.out.println(Integer.parseInt(allfile.get(i).getName().split("\\.")[0]));
+	 			System.out.println(intNumber);
 	 			numberfile.add(intNumber);
 	 			//System.out.println(numberfile);
 	 			if(!(numberfile.size() == numberfile.get(numberfile.size() - 1))){
-				System.out.println("売上ファイルが連番になっていません。");
+				System.out.println("売上ファイル名が連番になっていません");
 				return;
 	 			}
 	 		}
@@ -109,36 +133,36 @@ public class CalculateSale {
 					}
 					//4行以上の場合のエラー
 					if(extraction.size() != 3){
-						System.out.println(files[i]+"のフォーマットが不正です");
+						System.out.println(files[i].getName()+"のフォーマットが不正です");
 						return;
 					}
 					if (!branchList.containsKey(extraction.get(0))){
-						System.out.println(files[i]+"の支店コードが不正です");
+						System.out.println(files[i].getName()+"の支店コードが不正です");
 						return;
 					}
 					if (!commodityList.containsKey(extraction.get(1))){
-						System.out.println(files[i]+"の商品コードが不正です");
+						System.out.println(files[i].getName()+"の商品コードが不正です");
 						return;
 					}
 					// 集計処理
 					System.out.println(extraction);
 					// 足したい値を取得
-					int extraprice = Integer.parseInt(extraction.get(2));
+					long extraprice = Long.parseLong(extraction.get(2));
 					//System.out.println(e);
 					// 既存の値を取得
-					int branchAggregatedPrice = branchEarnings.get(extraction.get(0));
-					int commodityAggregatedPrice = commodityEarnings.get(extraction.get(1));
+					long branchAggregatedPrice = branchEarnings.get(extraction.get(0));
+					long commodityAggregatedPrice = commodityEarnings.get(extraction.get(1));
 					// 合計　=　足したい値　+　既存の値
-					int totalFeeBranch = extraprice + branchAggregatedPrice;
-					int totalFeeCommodity = extraprice + commodityAggregatedPrice;
+					long totalFeeBranch = extraprice + branchAggregatedPrice;
+					long totalFeeCommodity = extraprice + commodityAggregatedPrice;
 					//合計を格納
 					branchEarnings.put( extraction.get(0) , totalFeeBranch );
 					commodityEarnings.put( extraction.get(1) , totalFeeCommodity );
 					//11桁以上のの場合10桁を超えましたを表示
-					int ketaA =Integer.toString(totalFeeBranch).length();
-					int ketaB =Integer.toString(totalFeeCommodity).length();
+					int ketaA =Integer.toString((int) totalFeeBranch).length();
+					int ketaB =Integer.toString((int)totalFeeCommodity).length();
 					if(10 < ketaA || 10 < ketaB){
-						System.out.println("合計金額が10桁を超えました。");
+						System.out.println("合計金額が10桁を超えました");
 						break;
 					}
 				}catch(FileNotFoundException e) {
@@ -150,21 +174,21 @@ public class CalculateSale {
 				}
 		 	}
 			//支店別集計ファイル　降順
-			List<Map.Entry<String,Integer>> branchDown =
-						new ArrayList<Map.Entry<String,Integer>>(branchEarnings.entrySet());
-			Collections.sort(branchDown, new Comparator<Map.Entry<String,Integer>>() {
+			List<Map.Entry<String,Long>> branchDown =
+						new ArrayList<Map.Entry<String,Long>>(branchEarnings.entrySet());
+			Collections.sort(branchDown, new Comparator<Map.Entry<String,Long>>() {
 				@Override
-				public int compare(Entry<String,Integer> entry1, Entry<String,Integer> entry2) {
-					return ((Integer)entry2.getValue()).compareTo((Integer)entry1.getValue());
+				public int compare(Entry<String,Long> entry1, Entry<String,Long> entry2) {
+					return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
 				}
 			});
 			//商品別集計ファイル　降順
-			List<Map.Entry<String,Integer>> commodityDown =
-						new ArrayList<Map.Entry<String,Integer>>(commodityEarnings.entrySet());
-			Collections.sort(  commodityDown, new Comparator<Map.Entry<String,Integer>>() {
+			List<Map.Entry<String,Long>> commodityDown =
+						new ArrayList<Map.Entry<String,Long>>(commodityEarnings.entrySet());
+			Collections.sort(  commodityDown, new Comparator<Map.Entry<String,Long>>() {
 				@Override
-				public int compare(Entry<String,Integer> entry1, Entry<String,Integer> entry2) {
-					return ((Integer)entry2.getValue()).compareTo((Integer)entry1.getValue());
+				public int compare(Entry<String,Long> entry1, Entry<String,Long> entry2) {
+					return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
 				}
 			});
 			File branchOutFile = new File(args[0], "branch.out");
@@ -173,7 +197,7 @@ public class CalculateSale {
 			PrintWriter printWriterBranch = new PrintWriter(bufferedWriterBranch);
 			//
 			try{
-				for (Entry<String,Integer> s : branchDown) {
+				for (Entry<String,Long> s : branchDown) {
 					printWriterBranch.println( s.getKey() + ","
 							+ branchList.get( s.getKey() )+","+ branchEarnings.get( s.getKey() ) );
 				}
@@ -185,7 +209,7 @@ public class CalculateSale {
 			BufferedWriter bufferWriterCommodity = new BufferedWriter(fileWriterCommodity);
 			PrintWriter printWriteCommodity = new PrintWriter(bufferWriterCommodity);
 			try{
-				for (Entry<String,Integer> s : commodityDown) {
+				for (Entry<String,Long> s : commodityDown) {
 					printWriteCommodity.println( s.getKey() + ","
 							+ commodityList.get( s.getKey() )+","+ commodityEarnings.get( s.getKey() ) );
 				}
