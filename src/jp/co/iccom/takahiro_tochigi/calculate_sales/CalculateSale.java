@@ -45,10 +45,10 @@ public class CalculateSale {
 								branchList.put(branchContents[0],branchContents[1]);
 								//全店舗分の金額の初期化、
 								branchEarnings.put(branchContents[0], (long) 0);
-								}else{
-									System.out.println("支店定義ファイルのフォーマットが不正です");
-									return;
-								}
+							}else{
+								System.out.println("支店定義ファイルのフォーマットが不正です");
+								return;
+							}
 						}else{
 							System.out.println("支店定義ファイルのフォーマットが不正です");
 							return;
@@ -76,9 +76,9 @@ public class CalculateSale {
 						String[]commodityContents =  stringBufferedCommodity.split(",");
 						if(commodityContents[0].matches("^[A-Z0-9]{8}$")){
 							if(commodityContents.length == 2){
-							commodityList.put(commodityContents[0],commodityContents[1]);
-							//全商品分の金額の初期化
-							commodityEarnings.put(commodityContents[0], (long) 0);
+								commodityList.put(commodityContents[0],commodityContents[1]);
+								//全商品分の金額の初期化
+								commodityEarnings.put(commodityContents[0], (long) 0);
 							}else{
 								System.out.println("商品定義ファイルのフォーマットが不正です");
 								return;
@@ -104,32 +104,31 @@ public class CalculateSale {
 		try{
 			//ディレクトリー内から.rcdファイル一覧の読込・・・
 
-	 		File directry = new File(args[0]);
-	 		File[] files = directry.listFiles();
-	 		for (int i = 0; i < files.length; i++) {
+			File directry = new File(args[0]);
+			File[] files = directry.listFiles();
+			for (int i = 0; i < files.length; i++) {
 				if(files[i].getName().endsWith(".rcd")){
 					allrcdFile.add(files[i]);
-			 	}
+				}
 			}
-	 		// 連番確認
-	 		ArrayList<Long> numberfile = new ArrayList<Long>();
-	 		for (int i = 0; i < allrcdFile.size(); i++) {
-	 			String fileName = allrcdFile.get(i).getName();
-	 			String number = fileName.split("\\.")[0];
-	 			long intNumber = Long.parseLong(number);
-	 			numberfile.add(intNumber);
-
-	 			if(!(numberfile.size() == numberfile.get(numberfile.size() - 1))){
-	 				System.out.println("売上ファイル名が連番になっていません");
-				return;
-	 			}
-	 		}
-	 		//allfileに入っているrcdファイルを繰り返し処理で開いていく
-	 		for(int i = 0; i<allrcdFile.size(); i++){
-	 			ArrayList<String> extraction = new ArrayList<>();//抽出した売上ファイルを保持するリスト
-					FileReader fileReaderRcd = new FileReader( allrcdFile.get(i) );
-					BufferedReader bufferedReaderRcd = new BufferedReader( fileReaderRcd );
-					String extra  ;
+			// 連番確認
+			ArrayList<Long> numberfile = new ArrayList<Long>();
+			for (int i = 0; i < allrcdFile.size(); i++) {
+				String fileName = allrcdFile.get(i).getName();
+				String number = fileName.split("\\.")[0];
+				long intNumber = Long.parseLong(number);
+				numberfile.add(intNumber);
+				if(!(numberfile.size() == numberfile.get(numberfile.size() - 1))){
+					System.out.println("売上ファイル名が連番になっていません");
+					return;
+				}
+			}
+			//allfileに入っているrcdファイルを繰り返し処理で開いていく
+			for(int i = 0; i<allrcdFile.size(); i++){
+				ArrayList<String> extraction = new ArrayList<>();//抽出した売上ファイルを保持するリスト
+				FileReader fileReaderRcd = new FileReader( allrcdFile.get(i) );
+				BufferedReader bufferedReaderRcd = new BufferedReader( fileReaderRcd );
+				String extra  ;
 				try{
 					while((extra = bufferedReaderRcd.readLine())  != null){
 						extraction.add(extra);
@@ -172,19 +171,19 @@ public class CalculateSale {
 				}finally{
 					bufferedReaderRcd.close();
 				}
-		 	}
-			//支店別集計ファイル　降順
+			}
+			//支店別集計ファイル 降順
 			List<Map.Entry<String,Long>> branchDown =
-						new ArrayList<Map.Entry<String,Long>>(branchEarnings.entrySet());
+					new ArrayList<Map.Entry<String,Long>>(branchEarnings.entrySet());
 			Collections.sort(branchDown, new Comparator<Map.Entry<String,Long>>() {
 				@Override
 				public int compare(Entry<String,Long> entry1, Entry<String,Long> entry2) {
 					return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
 				}
 			});
-			//商品別集計ファイル　降順
+			//商品別集計ファイル 降順
 			List<Map.Entry<String,Long>> commodityDown =
-						new ArrayList<Map.Entry<String,Long>>(commodityEarnings.entrySet());
+					new ArrayList<Map.Entry<String,Long>>(commodityEarnings.entrySet());
 			Collections.sort(  commodityDown, new Comparator<Map.Entry<String,Long>>() {
 				@Override
 				public int compare(Entry<String,Long> entry1, Entry<String,Long> entry2) {
@@ -204,7 +203,6 @@ public class CalculateSale {
 			}finally{
 				printWriterBranch.close();
 			}
-
 			File commodityOutFile = new File(args[0], "commodity.out");
 			FileWriter fileWriterCommodity = new FileWriter(commodityOutFile);
 			BufferedWriter bufferWriterCommodity = new BufferedWriter(fileWriterCommodity);
@@ -219,7 +217,6 @@ public class CalculateSale {
 			}
 		}catch(IOException e){
 			System.out.println("予期せぬエラーが発生しました");
-			System.out.println(e);
 		}
 	}
 }
