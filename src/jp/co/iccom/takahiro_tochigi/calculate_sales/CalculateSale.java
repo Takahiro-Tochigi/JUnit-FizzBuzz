@@ -57,15 +57,13 @@ public class CalculateSale {
 				while ((stBufferCO = brb.readLine())  != null){
 					String[] nameb = stBufferCO.split(",");
 					if(nameb[0].matches("^[A-Z0-9]{8}$")){
-						branchList.put(nameb[0],nameb[1]);
+						commodityList.put(nameb[0],nameb[1]);
 						//全店舗分の金額の初期化、
-						store.put(nameb[0], 0);
+						product.put(nameb[0], 0);
 					} else{
 						System.out.println("商品定義ファイルのフォーマットが不正です");
 						return;
 					}
-					commodityList.put(nameb[0],nameb[1]);
-					product.put(nameb[0], 0);
 				};
 				//System.out.println(branchList);//確認のため分割した配列の表示
 				//System.out.println(commoditylist);
@@ -83,7 +81,6 @@ public class CalculateSale {
 	 		for (int i = 0; i < files.length; i++) {
 				if(files[i].getName().endsWith(".rcd")){
 					allfile.add(files[i]);
-			 		//System.out.println(allfile);
 			 	}
 			}//
 	 		// 連番確認
@@ -107,33 +104,25 @@ public class CalculateSale {
 					FileReader fru =new FileReader(allfile.get(i));
 					BufferedReader brf = new BufferedReader(fru);
 					String extra  ;
-					int nLine = 0;
 				try{
 					while((extra = brf.readLine())  != null){
-						nLine++;
 						extraction.add(extra);
 						//抽出処理失敗のif文
-
-						//4行以上の場合のエラー
-						if(nLine > 3){
-							System.out.println(files[i]+"のフォーマットが不正です");
-							return;
-						}
-						if(!branchList.containsKey(extraction.get(0))){
-							System.out.println(files[i]+"のフォーマットが不正です");
-							return;
-						}
-						if(!commodityList.containsKey(extraction.get(1))){
-							System.out.println(files[i]+"のフォーマットが不正です");
-							return;
-						}
 					}
-					//支店コードが不正です
-					/*if(!extraction.get(0).equals(branchList.keySet())){
-						System.out.println(+"のフォーマットが不正です");
+
+					//4行以上の場合のエラー
+					if(extraction.size() != 3){
+						System.out.println(files[i]+"のフォーマットが不正です");
 						return;
-					}*/
-					System.out.println(extraction);
+					}
+					if (!branchList.containsKey(extraction.get(0))){
+						System.out.println(files[i]+"の支店コードが不正です");
+						return;
+					}
+					if (!commodityList.containsKey(extraction.get(1))){
+						System.out.println(files[i]+"のフォーマットが不正です");
+						return;
+					}
 					// 集計処理
 
 					// 足したい値を取得
@@ -162,8 +151,10 @@ public class CalculateSale {
 						}
 
 				}catch (FileNotFoundException e) {
+					System.out.println("予期せぬエラーが発生しました");
 
 				}catch (IOException e ){
+					System.out.println("予期せぬエラーが発生しました");
 
 				}finally{
 					brf.close();
@@ -233,6 +224,7 @@ public class CalculateSale {
 			}
 			pwCommodity.close();
 		}catch(IOException e){
+			System.out.println("予期せぬエラーが発生しました");
 			System.out.println(e);
 		}
 	}
