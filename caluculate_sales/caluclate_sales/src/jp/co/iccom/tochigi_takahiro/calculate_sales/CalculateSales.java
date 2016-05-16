@@ -83,7 +83,7 @@ public class CalculateSales{
 									//全店舗分の金額の初期化、
 									branchEarnings.put(commodityContents[0], (long) 0);
 								}else{
-									System.out.println("支店定義ファイルのフォーマットが不正です");
+									System.out.println("商品定義ファイルのフォーマットが不正です");
 									return;
 								}
 								//全商品分の金額の初期化
