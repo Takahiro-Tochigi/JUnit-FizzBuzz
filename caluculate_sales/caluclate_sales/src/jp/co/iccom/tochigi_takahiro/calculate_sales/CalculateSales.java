@@ -76,7 +76,7 @@ public class CalculateSales{
 				try{
 					while (( stringBufferedCommodity = bufferedReaderCommodity.readLine())  != null){
 						String[]commodityContents =  stringBufferedCommodity.split(",");
-						if(commodityContents[0].matches("^[A-Z0-9]{8}$")){
+						if(commodityContents[0].matches("^[A-Za-z0-9]{8}$")){
 							commodityList.put(commodityContents[0],commodityContents[1]);
 								if(commodityContents.length == 2){
 									commodityList.put(commodityContents[0],commodityContents[1]);
