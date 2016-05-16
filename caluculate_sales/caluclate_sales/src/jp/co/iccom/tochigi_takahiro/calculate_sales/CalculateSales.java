@@ -83,7 +83,11 @@ public class CalculateSales{
 								if(commodityContents[0].matches("^[A-Za-z0-9]{8}$")){
 									commodityList.put(commodityContents[0],commodityContents[1]);
 									//全商品分の金額の初期化、
+<<<<<<< HEAD
 									commodityEarnings.put( commodityContents[0] , (long) 0);
+=======
+									commodityEarnings.put(commodityContents[0], (long) 0);
+>>>>>>> 9e889562a6d58ae756289145f9732501e7438fda
 								}else{
 									System.out.println("商品定義ファイルのフォーマットが不正です");
 									return;
