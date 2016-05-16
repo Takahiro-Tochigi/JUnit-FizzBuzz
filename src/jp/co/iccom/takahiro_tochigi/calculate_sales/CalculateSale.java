@@ -103,12 +103,13 @@ public class CalculateSale {
 
 		try{
 			//ディレクトリー内から.rcdファイル一覧の読込・・・
-
 			File directry = new File(args[0]);
 			File[] files = directry.listFiles();
-			for (int i = 0; i < files.length; i++) {
+			for ( int i = 0; i < files.length; i++ ) {
 				if(files[i].getName().endsWith(".rcd")){
-					allrcdFile.add(files[i]);
+					if(files[i].isFile()){
+						allrcdFile.add(files[i]);
+					}
 				}
 			}
 			// 連番確認
@@ -136,20 +137,20 @@ public class CalculateSale {
 						System.out.println(files[i].getName()+"のフォーマットが不正です");
 						return;
 					}
-					if (!branchList.containsKey(extraction.get(0))){
+					if ( !branchList.containsKey( extraction.get(0) ) ){
 						System.out.println(files[i].getName()+"の支店コードが不正です");
 						return;
 					}
-					if (!commodityList.containsKey(extraction.get(1))){
+					if ( !commodityList.containsKey(extraction.get(1) ) ){
 						System.out.println(files[i].getName()+"の商品コードが不正です");
 						return;
 					}
 					// 集計処理
 					// 足したい値を取得
-					long extraprice = Long.parseLong(extraction.get(2));
+					long extraprice = Long.parseLong( extraction.get(2) );
 					// 既存の値を取得
-					long branchAggregatedPrice = branchEarnings.get(extraction.get(0));
-					long commodityAggregatedPrice = commodityEarnings.get(extraction.get(1));
+					long branchAggregatedPrice = branchEarnings.get( extraction.get(0) );
+					long commodityAggregatedPrice = commodityEarnings.get( extraction.get(1) );
 					// 合計 = 足したい値 + 既存の値
 					long totalFeeBranch = extraprice + branchAggregatedPrice;
 					long totalFeeCommodity = extraprice + commodityAggregatedPrice;
