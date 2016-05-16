@@ -150,6 +150,7 @@ public class CalculateSales{
 						System.out.println(files[i].getName()+"の商品コードが不正です");
 						return;
 					}
+
 					// 集計処理
 					// 足したい値を取得
 					long extraprice = Long.parseLong( extraction.get(2) );
