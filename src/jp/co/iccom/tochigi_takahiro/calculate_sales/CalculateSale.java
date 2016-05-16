@@ -96,7 +96,7 @@ public class CalculateSale {
 					bufferedReaderCommodity.close();
 				}
 			}else{
-				System.out.println("商品定義ファイルが存在しません");//ファイルの存在に関するエラー
+				System.out.println("商品定義ファイルが存在しません");
 				return;
 			}
 		}catch(IOException e){
