@@ -77,14 +77,10 @@ public class CalculateSales{
 					while (( stringBufferedCommodity = bufferedReaderCommodity.readLine())  != null){
 						String[]commodityContents =  stringBufferedCommodity.split(",");
 						if(commodityContents[0].matches("^[A-Z0-9]{8}$")){
-							if(commodityContents.length == 2){
+							
 								commodityList.put(commodityContents[0],commodityContents[1]);
 								//全商品分の金額の初期化
 								commodityEarnings.put(commodityContents[0], (long) 0);
-							}else{
-								System.out.println("商品定義ファイルのフォーマットが不正です");
-								return;
-							}
 						}else{
 							System.out.println("商品定義ファイルのフォーマットが不正です");
 							return;
