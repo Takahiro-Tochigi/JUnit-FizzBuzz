@@ -18,7 +18,7 @@ import java.util.Map.Entry;
 
 
 
-public class CalculateSale {
+public class CalculateSale{
 	public static void main(String[] args){
 		if (args.length != 1) {
 			System.out.println("予期せぬエラーが発生しました");
