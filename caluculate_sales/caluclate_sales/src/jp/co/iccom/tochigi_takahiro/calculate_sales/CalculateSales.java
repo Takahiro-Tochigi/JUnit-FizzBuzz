@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+class FileRead {
 
+}
 
 public class CalculateSales{
 	public static void main(String[] args){
@@ -76,12 +78,12 @@ public class CalculateSales{
 				try{
 					while (( stringBufferedCommodity = bufferedReaderCommodity.readLine())  != null){
 						String[]commodityContents =  stringBufferedCommodity.split(",");
-						if(commodityContents[0].matches("^[A-Za-z0-9]{8}$")){
+						if(commodityContents.length == 2){
 							commodityList.put(commodityContents[0],commodityContents[1]);
-								if(commodityContents.length == 2){
+								if(commodityContents[0].matches("^[A-Za-z0-9]{8}$")){
 									commodityList.put(commodityContents[0],commodityContents[1]);
-									//全店舗分の金額の初期化、
-									commodityEarnings.put(commodityContents[0], (long) 0);
+									//全商品分の金額の初期化、
+									commodityEarnings.put( commodityContents[0] , (long) 0);
 								}else{
 									System.out.println("商品定義ファイルのフォーマットが不正です");
 									return;
