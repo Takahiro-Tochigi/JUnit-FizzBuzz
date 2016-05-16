@@ -31,7 +31,7 @@ public class CalculateSales{
 		HashMap<String,Long> branchEarnings = new HashMap<>();//支店の売上合計を保持する
 		HashMap<String,Long> commodityEarnings = new HashMap<>();//商品の売上合計を保持する
 		String stringBufferedBranch = ""; //戻り値を格納
-		String stringBufferedCommodity = ""; //戻り値を格
+		String stringBufferedCommodity = ""; //戻り値を格納
 
 		try{
 			//支店番号と支店名のハッシュマップ
