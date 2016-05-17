@@ -119,6 +119,7 @@ public class CalculateSales{
 					}
 				}
 			}
+
 			// 連番確認
 			ArrayList<Long> numberfile = new ArrayList<Long>();
 			for (int i = 0; i < allrcdFile.size(); i++) {
@@ -131,6 +132,7 @@ public class CalculateSales{
 					return;
 				}
 			}
+
 			for(int i = 0; i<allrcdFile.size(); i++){
 				ArrayList<String> extraction = new ArrayList<>();//抽出した売上ファイルを保持するリスト
 				FileReader fileReaderRcd = new FileReader( allrcdFile.get(i) );
@@ -179,6 +181,7 @@ public class CalculateSales{
 					bufferedReaderRcd.close();
 				}
 			}
+
 			//支店別集計ファイル 降順
 			List<Map.Entry<String,Long>> branchDown =
 					new ArrayList<Map.Entry<String,Long>>(branchEarnings.entrySet());
