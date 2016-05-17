@@ -58,7 +58,6 @@ public class CalculateSales{
 		}
 	}
 
-
 	//ファイルの出力メソッド
 	public static void outPut(String argument, String outPutFile, List<Entry<String,Long>>  descendingOfAggregateData
 			,HashMap<String,String> definitionList,HashMap<String,Long> saleResultList){
@@ -80,9 +79,17 @@ public class CalculateSales{
 			System.out.println("予期せぬエラーが発生しました");
 		}
 	}
-
-
-
+	public static void rcdLoad(String argument,String rcd,ArrayList<File> allrcdFile){
+		File directry = new File(argument);
+		File[] files = directry.listFiles();
+		for ( int i = 0; i < files.length; i++ ) {
+			if(files[i].getName().endsWith(rcd)){
+				if(files[i].isFile()){
+					allrcdFile.add(files[i]);
+				}
+			}
+		}
+	}
 
 
 
@@ -101,6 +108,7 @@ public class CalculateSales{
 		ArrayList<File> allrcdFile = new ArrayList<File>();//全ての.rcdファイルのリストを保持する
 		HashMap<String,Long> branchEarnings = new HashMap<>();//支店の売上合計を保持する
 		HashMap<String,Long> commodityEarnings = new HashMap<>();//商品の売上合計を保持する
+		File[] files ;
 		//String stringBufferedBranch = ""; //戻り値を格納
 		//String stringBufferedCommodity = ""; //戻り値を格納
 
@@ -182,7 +190,11 @@ public class CalculateSales{
 
 
 		try{
+
+			rcdLoad(args[0], ".rcd", allrcdFile);
+
 			//ディレクトリー内から.rcdファイル一覧の読込・・・
+			/*
 			File directry = new File(args[0]);
 			File[] files = directry.listFiles();
 			for ( int i = 0; i < files.length; i++ ) {
@@ -191,7 +203,7 @@ public class CalculateSales{
 						allrcdFile.add(files[i]);
 					}
 				}
-			}
+			}*/
 
 
 			// 連番確認
@@ -280,7 +292,8 @@ public class CalculateSales{
 			//出力をメソッド分け
 			outPut(args[0], "branch.out",branchDown,branchList,branchEarnings);
 			outPut(args[0], "commodity.out",commodityDown,commodityList,commodityEarnings);
-			/*File branchOutFile = new File(args[0], "branch.out");
+		/*
+			File branchOutFile = new File(args[0], "branch.out");
 			FileWriter fileWriterBranch = new FileWriter(branchOutFile);
 			BufferedWriter bufferedWriterBranch = new BufferedWriter(fileWriterBranch);
 			PrintWriter printWriterBranch = new PrintWriter(bufferedWriterBranch);
