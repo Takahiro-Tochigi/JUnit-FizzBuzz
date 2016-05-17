@@ -16,10 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-class FileRead {
-
-}
-
 public class CalculateSales{
 	public static void main(String[] args){
 		if (args.length != 1) {
