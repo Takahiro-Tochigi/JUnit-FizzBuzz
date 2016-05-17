@@ -18,7 +18,7 @@ import java.util.Map.Entry;
 
 public class CalculateSales{
 	//ファイルの読込メソッド
-	public static void fileLoad(String argument, String definitionFile, String regularExpression,
+	public static boolean fileLoad(String argument, String definitionFile, String regularExpression,
 			HashMap<String,String> definitionList, HashMap<String,Long> saleResultList, String fileName) {
 		String stringBuffered = "";
 
@@ -37,11 +37,11 @@ public class CalculateSales{
 							saleResultList.put(Contents[0], (long) 0);
 							}else{
 								System.out.println(fileName + "定義ファイルのフォーマットが不正です");
-								return;
+								return false;
 							}
 						}else{
 							System.out.println(fileName + "定義ファイルのフォーマットが不正です");
-							return;
+							return false;
 						}
 					}
 				}catch(IOException e){
@@ -51,11 +51,13 @@ public class CalculateSales{
 				}
 			}else{
 				System.out.println(fileName + "定義ファイルが存在しません");
-				return;
+				return false;
 			}
 		}catch(IOException e){
 			System.out.println("予期せぬエラーが発生しました");
+			return false;
 		}
+		return true;
 	}
 
 	//ファイルの出力メソッド
@@ -79,22 +81,6 @@ public class CalculateSales{
 			System.out.println("予期せぬエラーが発生しました");
 		}
 	}
-	public static void rcdLoad(String argument,String rcd,ArrayList<File> allrcdFile){
-		File directry = new File(argument);
-		File[] files = directry.listFiles();
-		for ( int i = 0; i < files.length; i++ ) {
-			if(files[i].getName().endsWith(rcd)){
-				if(files[i].isFile()){
-					allrcdFile.add(files[i]);
-				}
-			}
-		}
-	}
-
-
-
-
-
 
 	//mainメソッド
 	public static void main(String[] args){
@@ -108,12 +94,13 @@ public class CalculateSales{
 		ArrayList<File> allrcdFile = new ArrayList<File>();//全ての.rcdファイルのリストを保持する
 		HashMap<String,Long> branchEarnings = new HashMap<>();//支店の売上合計を保持する
 		HashMap<String,Long> commodityEarnings = new HashMap<>();//商品の売上合計を保持する
-		File[] files ;
 		//String stringBufferedBranch = ""; //戻り値を格納
 		//String stringBufferedCommodity = ""; //戻り値を格納
 
 
-		fileLoad(args[0],"branch.lst","^[0-9]{3}$",branchList,branchEarnings,"支店");
+		if(!fileLoad(args[0],"branch.lst","^[0-9]{3}$",branchList,branchEarnings,"支店")){
+			return;
+		}
 		/*try{
 			//支店番号と支店名のハッシュマップ
 			File  fileBranch = new  File(args[0], "branch.lst");
@@ -191,10 +178,8 @@ public class CalculateSales{
 
 		try{
 
-			rcdLoad(args[0], ".rcd", allrcdFile);
 
 			//ディレクトリー内から.rcdファイル一覧の読込・・・
-			/*
 			File directry = new File(args[0]);
 			File[] files = directry.listFiles();
 			for ( int i = 0; i < files.length; i++ ) {
@@ -203,7 +188,7 @@ public class CalculateSales{
 						allrcdFile.add(files[i]);
 					}
 				}
-			}*/
+			}
 
 
 			// 連番確認
@@ -254,10 +239,10 @@ public class CalculateSales{
 					//合計を格納
 					branchEarnings.put( extraction.get(0) , totalFeeBranch );
 					commodityEarnings.put( extraction.get(1) , totalFeeCommodity );
-					//11桁以上のの場合10桁を超えましたを表示
-					int ketaA =  String.valueOf(totalFeeBranch).length();
-					int ketaB =  String.valueOf(totalFeeCommodity).length();
-					if(10 < ketaA || 10 < ketaB){
+					//11ig桁以上のの場合10桁を超えましたを表示
+					int fureLengthBranch =  String.valueOf(totalFeeBranch).length();
+					int fureLengthCommodity =  String.valueOf(totalFeeCommodity).length();
+					if(10 < fureLengthBranch || 10 < fureLengthCommodity){
 						System.out.println("合計金額が10桁を超えました");
 						return;
 					}
