@@ -44,7 +44,9 @@ public class CalculateSales{
 					System.out.println(e);
 					return false;
 				}finally{
+					if(br != null){
 					br.close();
+					}
 				}
 			}else{
 				System.out.println(fileName + "定義ファイルが存在しません");
@@ -72,7 +74,9 @@ public class CalculateSales{
 							+ definitionList.get( s.getKey() )+","+ saleResultList.get( s.getKey() ) );
 				}
 			}finally{
+				if(bw != null){
 				bw.close();
+				}
 			}
 		}catch(IOException e){
 			System.out.println("予期せぬエラーが発生しました");
