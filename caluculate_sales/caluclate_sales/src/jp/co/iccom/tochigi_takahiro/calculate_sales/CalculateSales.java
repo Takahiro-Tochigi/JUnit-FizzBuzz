@@ -93,7 +93,7 @@ public class CalculateSales{
 		HashMap<String,Long> branchEarnings = new HashMap<>();//支店の売上合計を保持する
 		HashMap<String,Long> commodityEarnings = new HashMap<>();//商品の売上合計を保持する
 
-		if(!fileLoad(args[0],"branch.lst","^[0-9]{3}$",branchList,branchEarnings,"支店")){
+		if(fileLoad(args[0],"branch.lst","^[0-9]{3}$",branchList,branchEarnings,"支店")){
 			return;
 		}
 
@@ -198,10 +198,10 @@ public class CalculateSales{
 			});
 
 			//出力をメソッド分け
-			if(!outPut(args[0], "branch.out",branchDown,branchList,branchEarnings)){
+			if(outPut(args[0], "branch.out",branchDown,branchList,branchEarnings)){
 				return;
 			}
-			if(!outPut(args[0], "commodity.out",commodityDown,commodityList,commodityEarnings)){
+			if(outPut(args[0], "commodity.out",commodityDown,commodityList,commodityEarnings)){
 				return;
 			}
 
