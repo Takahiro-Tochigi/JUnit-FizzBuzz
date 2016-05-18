@@ -21,6 +21,7 @@ public class CalculateSales{
 	public static boolean fileLoad(String argument, String definitionFile, String regularExpression,
 			HashMap<String,String> definitionList, HashMap<String,Long> saleResultList, String fileName) {
 		String stringBuffered = "";
+
 		try{
 			File  file = new  File(argument, definitionFile);
 			if(file.exists()){
@@ -68,6 +69,7 @@ public class CalculateSales{
 					printWriter.println( s.getKey() + ","
 							+ definitionList.get( s.getKey() )+","+ saleResultList.get( s.getKey() ) );
 				}
+
 			}finally{
 				printWriter.close();
 			}
@@ -90,8 +92,7 @@ public class CalculateSales{
 		ArrayList<File> allrcdFile = new ArrayList<File>();//全ての.rcdファイルのリストを保持する
 		HashMap<String,Long> branchEarnings = new HashMap<>();//支店の売上合計を保持する
 		HashMap<String,Long> commodityEarnings = new HashMap<>();//商品の売上合計を保持する
-		//String stringBufferedBranch = ""; //戻り値を格納
-		//String stringBufferedCommodity = ""; //戻り値を格納
+
 		if(!fileLoad(args[0],"branch.lst","^[0-9]{3}$",branchList,branchEarnings,"支店")){
 			return;
 		}
@@ -112,6 +113,7 @@ public class CalculateSales{
 				}
 			}
 
+
 			// 連番確認
 			ArrayList<Long> numberfile = new ArrayList<Long>();
 			for (int i = 0; i < allrcdFile.size(); i++) {
@@ -124,6 +126,9 @@ public class CalculateSales{
 					return;
 				}
 			}
+
+
+
 			for(int i = 0; i<allrcdFile.size(); i++){
 				ArrayList<String> extraction = new ArrayList<>();//抽出した売上ファイルを保持するリスト
 				FileReader fileReaderRcd = new FileReader( allrcdFile.get(i) );
@@ -172,6 +177,7 @@ public class CalculateSales{
 					bufferedReaderRcd.close();
 				}
 			}
+
 			//支店別集計ファイル 降順
 			List<Map.Entry<String,Long>> branchDown =
 					new ArrayList<Map.Entry<String,Long>>(branchEarnings.entrySet());
@@ -192,12 +198,13 @@ public class CalculateSales{
 			});
 
 			//出力をメソッド分け
-			if(outPut(args[0], "branch.out",branchDown,branchList,branchEarnings)){
+			if(!outPut(args[0], "branch.out",branchDown,branchList,branchEarnings)){
 				return;
 			}
-			if(outPut(args[0], "commodity.out",commodityDown,commodityList,commodityEarnings)){
+			if(!outPut(args[0], "commodity.out",commodityDown,commodityList,commodityEarnings)){
 				return;
 			}
+
 		}catch(IOException e){
 			System.out.println("予期せぬエラーが発生しました");
 		}
