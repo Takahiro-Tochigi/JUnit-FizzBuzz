@@ -30,15 +30,10 @@ public class CalculateSales{
 				try{
 					while (( stringBuffered = bufferedReader.readLine()) != null){
 					String[] Contents = stringBuffered.split(",");
-					if(Contents[0].matches(regularExpression)){
-						if(Contents.length == 2){
+					if(Contents[0].matches(regularExpression) && Contents.length == 2){
 							definitionList.put(Contents[0],Contents[1]);
 							//全店舗分の金額の初期化、
 							saleResultList.put(Contents[0], (long) 0);
-							}else{
-								System.out.println(fileName + "定義ファイルのフォーマットが不正です");
-								return false;
-							}
 						}else{
 							System.out.println(fileName + "定義ファイルのフォーマットが不正です");
 							return false;
@@ -46,6 +41,7 @@ public class CalculateSales{
 					}
 				}catch(IOException e){
 					System.out.println(e);
+					return false;
 				}finally{
 					bufferedReader.close();
 				}
@@ -61,7 +57,7 @@ public class CalculateSales{
 	}
 
 	//ファイルの出力メソッド
-	public static void outPut(String argument, String outPutFile, List<Entry<String,Long>>  descendingOfAggregateData
+	public static boolean outPut(String argument, String outPutFile, List<Entry<String,Long>>  descendingOfAggregateData
 			,HashMap<String,String> definitionList,HashMap<String,Long> saleResultList){
 		try{
 			File outFile = new File( argument,  outPutFile);
@@ -79,7 +75,9 @@ public class CalculateSales{
 			}
 		}catch(IOException e){
 			System.out.println("予期せぬエラーが発生しました");
+			return false;
 		}
+		return true;
 	}
 
 	//mainメソッド
@@ -136,7 +134,9 @@ public class CalculateSales{
 		}catch(IOException e){
 			System.out.println("予期せぬエラーが発生しました");
 		}*/
-		fileLoad(args[0],"commodity.lst","^[A-Za-z0-9]{8}$",commodityList,commodityEarnings,"商品");
+		if(fileLoad(args[0],"commodity.lst","^[A-Za-z0-9]{8}$",commodityList,commodityEarnings,"商品")){
+			return;
+		}
 		/*
 		try{
 			File  fileCommodity =new  File(args[0],"commodity.lst");
@@ -275,8 +275,12 @@ public class CalculateSales{
 			});
 
 			//出力をメソッド分け
-			outPut(args[0], "branch.out",branchDown,branchList,branchEarnings);
-			outPut(args[0], "commodity.out",commodityDown,commodityList,commodityEarnings);
+			if(outPut(args[0], "branch.out",branchDown,branchList,branchEarnings)){
+				return;
+			}
+			if(outPut(args[0], "commodity.out",commodityDown,commodityList,commodityEarnings)){
+				return;
+			}
 		/*
 			File branchOutFile = new File(args[0], "branch.out");
 			FileWriter fileWriterBranch = new FileWriter(branchOutFile);
