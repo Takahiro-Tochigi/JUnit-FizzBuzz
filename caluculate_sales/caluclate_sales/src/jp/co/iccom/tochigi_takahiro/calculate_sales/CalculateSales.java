@@ -98,11 +98,11 @@ public class CalculateSales{
 		HashMap<String, Long> branchEarnings = new HashMap<>();//支店の売上合計を保持する
 		HashMap<String, Long> commodityEarnings = new HashMap<>();//商品の売上合計を保持する
 
-		if(!fileLoad(args[0], "branch.lst","^[0-9]{3}$", branchList,branchEarnings, "支店")){
+		if(!fileLoad(args[0], "branch.lst", "^[0-9]{3}$", branchList,branchEarnings, "支店")){
 			return;
 		}
 
-		if(!fileLoad(args[0], "commodity.lst","^[A-Za-z0-9]{8}$", commodityList,commodityEarnings, "商品")){
+		if(!fileLoad(args[0], "commodity.lst", "^[A-Za-z0-9]{8}$", commodityList,commodityEarnings, "商品")){
 			return;
 		}
 
@@ -192,7 +192,7 @@ public class CalculateSales{
 			//商品別集計ファイル 降順
 			List<Map.Entry<String, Long>> commodityDown =
 					new ArrayList<Map.Entry<String, Long>>(commodityEarnings.entrySet());
-			Collections.sort(  commodityDown, new Comparator<Map.Entry<String, Long>>() {
+			Collections.sort(commodityDown, new Comparator<Map.Entry<String, Long>>() {
 				@Override
 				public int compare(Entry<String ,Long> entry1, Entry<String, Long> entry2) {
 					return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
