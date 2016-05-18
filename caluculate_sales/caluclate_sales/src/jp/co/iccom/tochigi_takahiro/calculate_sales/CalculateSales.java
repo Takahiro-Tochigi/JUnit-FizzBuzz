@@ -18,12 +18,12 @@ import java.util.Map.Entry;
 
 public class CalculateSales{
 	//ファイルの読込メソッド
-	public static boolean fileLoad(String commandLineArguments, String definitionFile, String regularExpression,
+	public static boolean fileLoad(String path, String definitionFile, String regularExpression,
 			HashMap<String, String> definitionList, HashMap<String, Long> saleResultList, String fileName){
 		String stringBuffered = "";
 
 		try{
-			File  file = new  File(commandLineArguments, definitionFile);
+			File  file = new  File(path, definitionFile);
 			if( file.exists() ){
 				FileReader fr = new FileReader(file);
 				BufferedReader br = null;
@@ -45,7 +45,7 @@ public class CalculateSales{
 					return false;
 				}finally{
 					if(br != null){
-					br.close();
+						br.close();
 					}
 				}
 			}else{
@@ -60,10 +60,10 @@ public class CalculateSales{
 	}
 
 	//ファイルの出力メソッド
-	public static boolean outPut(String commandLineArguments, String outPutFile, List<Entry<String,Long>>  descendingOfAggregateData
+	public static boolean outPut(String path, String outPutFile, List<Entry<String,Long>>  descendingOfAggregateData
 			,HashMap<String, String> definitionList,HashMap<String, Long> saleResultList){
 		try{
-			File outFile = new File( commandLineArguments, outPutFile);
+			File outFile = new File( path, outPutFile);
 			FileWriter fw = new FileWriter(outFile);
 			BufferedWriter bw = null;
 			try{
@@ -75,7 +75,7 @@ public class CalculateSales{
 				}
 			}finally{
 				if(bw != null){
-				bw.close();
+					bw.close();
 				}
 			}
 		}catch(IOException e){
