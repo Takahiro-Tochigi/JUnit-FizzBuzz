@@ -30,11 +30,11 @@
 	<label for="name">名前</label>
 	<input name="name" id="name" value="${ registUser.name }"/><br />
 
-	<label for="branchName">支店名</label>
-	<input name="branchName" id="branchNamel" value="${ registUser.branchName }"/><br />
+	<label for="branch_id">支店名</label>
+	<input name="branch_id" id="branch_id" value="${ registUser.branchName }"/><br />
 
-	<label for="roleName">部署.役職</label>
-	<input name="roleName" id="roleName" value="${ registUser.roleName}"/><br />
+	<label for="role_id">部署.役職</label>
+	<input name="role_id" id="role_id" value="${ registUser.roleName}"/><br />
 
 		<input type="submit" value="登録" /><br />
 		<a href="./">戻る</a>
