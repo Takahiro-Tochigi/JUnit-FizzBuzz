@@ -88,11 +88,11 @@ public class UserDao{
  			sql.append(", insert_date");
  			sql.append(", update_date");
  			sql.append(")VALUES(");
- 			sql.append("?");//account
- 			sql.append(",?");//name
- 			sql.append(",?");//email
+ 			sql.append("?");//logi_id
  			sql.append(",?");//password
- 			sql.append(",?");//description
+ 			sql.append(",?");//name
+ 			sql.append(",?");//branch_id
+ 			sql.append(",?");//role_id
  			sql.append(", CURRENT_TIMESTAMP");//insert_date
  			sql.append(", CURRENT_TIMESTAMP");//update_date
  			sql.append(")");

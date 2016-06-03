@@ -11,6 +11,7 @@ import bulletinBoard.utils.CipherUtil;
 
 
 public class UserService {
+
 	public void register(User user) {
 
 		Connection connection = null;
@@ -34,7 +35,7 @@ public class UserService {
 			close(connection);
 		}
 	}
-
+/*
 	public User getUser(int userId){
 
 		Connection connection = null;
@@ -56,7 +57,7 @@ public class UserService {
 		}
 	}
 
-
+*/
 
 
 }

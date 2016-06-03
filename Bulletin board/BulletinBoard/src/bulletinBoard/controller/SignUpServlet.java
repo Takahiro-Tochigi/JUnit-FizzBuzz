@@ -32,8 +32,28 @@ public class SignUpServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		List<String> messages = new ArrayList<>();
+
 		HttpSession session = request.getSession();
-		User registUser = getUser(request);
+		if(isValid(request,messages) == true) {
+
+			User user = new User();
+			user.setLogin_id(request.getParameter("login_id"));
+			user.setPassword(request.getParameter("password"));
+			user.setName(request.getParameter("name"));
+			user.setBranch_id(Integer.parseInt(request.getParameter("branch_id")));
+			user.setRole_id(Integer.parseInt(request.getParameter("role_id")));
+
+			System.out.println(user);
+
+			new UserService().register(user);
+
+			response.sendRedirect("./");
+		}else{
+			session.setAttribute("errormessages", messages);
+			response.sendRedirect("signup");
+		}
+
+	/*	User registUser = getUser(request);
 		session.setAttribute("registUser", registUser);
 
 		if (isValid(request, messages) == true) {
@@ -43,10 +63,10 @@ public class SignUpServlet extends HttpServlet {
 		} else {
 			session.setAttribute("errorMessages", messages);
 			response.sendRedirect("signup");
-		}
+		}*/
 	}
 
-	private User getUser(HttpServletRequest request) throws IOException, ServletException{
+	/*private User getUser(HttpServletRequest request) throws IOException, ServletException{
 
 			User registUser =  new User();
 
@@ -57,17 +77,29 @@ public class SignUpServlet extends HttpServlet {
 			registUser.setRole_id(request.getParameter("role_id"));
 
 			return registUser;
-		}
+		}*/
 
-	private boolean isValid(HttpServletRequest request, List<Object> messages) {
-		String account = request.getParameter("account");
+	private boolean isValid(HttpServletRequest request, List<String> messages) {
+		String login_id = request.getParameter("login_id");
 		String password = request.getParameter("password");
+		String name = request.getParameter("name");
+		String branch_id = request.getParameter("branch_id");
+		String role_id = request.getParameter("role_id");
 
-		if (StringUtils.isNullOrEmpty(account) == true) {
+		if (login_id.length() < 6 || login_id.length() > 21 ) {
 			messages.add("アカウント名を入力してください");
 		}
-		if (StringUtils.isNullOrEmpty(password) == true) {
+		if (password.length() < 6 || password.length() > 255) {
 			messages.add("パスワードを入力してください");
+		}
+		if (name.length() < 11){
+			messages.add("a");
+		}
+		if(StringUtils.isNullOrEmpty(branch_id)){
+			messages.add("a");
+		}
+		if(StringUtils.isNullOrEmpty(role_id)){
+			messages.add("a");
 		}
 		// TODO アカウントが既に利用されていないか、メールアドレスが既に登録されていないかなどの確認も必要
 		if (messages.size() == 0) {
