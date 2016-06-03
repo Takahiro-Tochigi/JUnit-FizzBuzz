@@ -1,0 +1,46 @@
+﻿CREATE DATABASE  BulletinBoard;
+
+use BulletinBoard;
+
+show columns from user;
+
+CREATE TABLE user(
+					id int primary key 
+					, password varchar(255)  not null
+					, name vachar(20) unique  not null
+					, branchNumber int  not null
+					, role int  not null
+				);
+
+
+投稿
+CREATE TABLE posting(	
+						id int primary key 
+						subject varchar(100) not null
+						,comment   text   not null
+						,category varchar(20) not null
+						,insert_date TIMESTAMP
+						,update_date TIMESTAMP
+						,user_id int not null
+					);
+
+
+コメント
+CREAT TABLE commnet(	
+						id int primary key
+						,comment text not null
+						,insert_date TIMESTAMP
+						,update_date TIMESTAMP
+						,user_id int not null
+					);
+					
+支店
+CREATE TABLE branch(	
+						id;
+						,branch varchar(10)
+					);
+役職など				
+CREATE TABLE role(
+					id;
+					,role varchar(10)
+				);
