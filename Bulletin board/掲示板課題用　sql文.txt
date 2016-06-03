@@ -36,11 +36,11 @@ CREAT TABLE commnet(
 					
 支店
 CREATE TABLE branch(	
-						id;
+						id int primary key
 						,branch varchar(10)
 					);
 役職など				
 CREATE TABLE role(
-					id;
+					id int primary key
 					,role varchar(10)
 				);
