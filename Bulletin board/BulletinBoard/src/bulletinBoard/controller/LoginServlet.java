@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bulletinBoard.beans.User;
+import bulletinBoard.service.LoginService;
 
 @WebServlet(urlPatterns = { "/login" })
 public class LoginServlet extends HttpServlet {
@@ -28,11 +29,11 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
-		String accountOrEmail = request.getParameter("accountOrEmail");
+		String login_id = request.getParameter("login_id");
 		String password = request.getParameter("password");
 
 		LoginService loginService = new LoginService();
-		User user = loginService.login(accountOrEmail, password);
+		User user = loginService.login(login_id, password);
 
 		HttpSession session = request.getSession();
 		if (user != null) {

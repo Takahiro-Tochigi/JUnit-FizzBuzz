@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.mysql.jdbc.StringUtils;
-
 import bulletinBoard.beans.User;
 import bulletinBoard.service.UserService;
 
@@ -33,8 +31,6 @@ public class SignUpServlet extends HttpServlet {
 
 		List<String> messages = new ArrayList<>();
 
-		System.out.println(request.getParameter("login_id"));//ok
-
 		HttpSession session = request.getSession();
 		if(isValid(request,messages) == true) {
 
@@ -45,11 +41,9 @@ public class SignUpServlet extends HttpServlet {
 			user.setBranch_id(Integer.parseInt(request.getParameter("branch_id")));
 			user.setRole_id(Integer.parseInt(request.getParameter("role_id")));
 
-			System.out.println(user);
-
 			new UserService().register(user);
 
-			response.sendRedirect("./");
+			response.sendRedirect("usermaintenance");
 		}else{
 			session.setAttribute("errormessages", messages);
 			System.out.println(messages);
@@ -60,26 +54,28 @@ public class SignUpServlet extends HttpServlet {
 	private boolean isValid(HttpServletRequest request, List<String> messages) {
 		String login_id = request.getParameter("login_id");
 		String password = request.getParameter("password");
+		String checkPassword =request.getParameter("checkpassword");
 		String name = request.getParameter("name");
 		String branch_id = request.getParameter("branch_id");
 		String role_id = request.getParameter("role_id");
 
+
 		if (login_id.length() < 6 || login_id.length() > 21 ) {
-			messages.add("アカウント名を入力してください");
+			messages.add("ログインIDは6文字以上20文字以下で入力してください");
 		}
 		if (password.length() < 6 || password.length() > 255) {
-			messages.add("パスワードを入力してください");
+			messages.add("パスワードは6文字以上255文字以下で入力してください");
+		}
+		if (!password.equals(checkPassword)){
+			messages.add("パスワードが確認用パスワードと一致しません");
 		}
 		if (name.length() > 11){
-			messages.add("a");
+			messages.add("個人名は10文字以下にしてください。");
 		}
-		if(StringUtils.isNullOrEmpty(branch_id)){
-			messages.add("b");
+		/*if(!isNumeric(branch_id)){
+
 		}
-		if(StringUtils.isNullOrEmpty(role_id)){
-			messages.add("c");
-		}
-		// TODO アカウントが既に利用されていないか、メールアドレスが既に登録されていないかなどの確認も必要
+		if*/
 		if (messages.size() == 0) {
 			return true;
 		} else {

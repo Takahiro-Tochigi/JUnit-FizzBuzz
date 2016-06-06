@@ -10,11 +10,11 @@
 </head>
 <body>
 <div class ="main-contents">
-<c:if test ="${ not empty errorMessages }">
+<c:if test ="${ not empty errormessages }">
 	<div class ="errormessages">
 		<ul>
-			<c:forEach items ="${errorMessages }" var="message">
-				<li><c:out value="${ message }" />
+			<c:forEach items ="${ errormessages }" var="messages">
+				<li><c:out value="${ messages }" />
 			</c:forEach>
 		</ul>
 	</div>
@@ -27,6 +27,9 @@
 	<label for="password">パスワード</label>
 	<input name="password" type="password" id="password" /><br />
 
+	<label for="checkpassword">確認用パスワード</label>
+	<input name="checkpassword"  type="password" id="checkpassword" /><br />
+
 	<label for="name">名前</label>
 	<input name="name" id="name"/><br />
 
@@ -37,7 +40,7 @@
 	<input name="role_id" id="role_id" /><br />
 
 		<input type="submit" value="登録" /><br />
-		<a href="./">戻る</a>
+		<a href="./usermaintenance">戻る</a>
 
 </form>
 <div class ="copyright">Copyright(c) Takahiro Tochigi </div>

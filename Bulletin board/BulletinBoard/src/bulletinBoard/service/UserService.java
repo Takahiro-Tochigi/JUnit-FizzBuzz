@@ -35,29 +35,26 @@ public class UserService {
 			close(connection);
 		}
 	}
-/*
-	public User getUser(int userId){
 
-		Connection connection = null;
+	public void update(User user){
+		Connection connection =null;
 		try{
-			connection = getConnection();
+			connection=getConnection();
+			String encPassword = CipherUtil.encrypt(user.getPassword());
+			user.setPassword(encPassword);
 
-			UserDao userDao = new UserDao();
-			User user = userDao.getUser(connection, userId);
+			UserDao userDao =new UserDao();
+			userDao.update(connection, user);
 
 			commit(connection);
-
-			return user;
-		} catch (RuntimeException e){
+		}catch (RuntimeException e){
 			rollback(connection);
 			throw e;
-		} catch (Error e){
-			rollback (connection);
+		}catch (Error e){
+			rollback(connection);
 			throw e;
+		}finally{
+			close(connection);
 		}
 	}
-
-*/
-
-
 }

@@ -14,8 +14,8 @@
 <div class ="main-contents">
 
 <div class ="header">
-	<a href ="login">ログイン</a>
-	<a href ="signup">登録する</a>
+	<a href ="newMessage">新規投稿</a>
+	<a href ="usermaintenance">ユーザー管理画面</a>
 </div>
 
 
