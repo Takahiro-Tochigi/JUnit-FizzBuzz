@@ -22,19 +22,19 @@
 </c:if>
 <form action ="signup" method="post"><br />
 	<label for="login_id">ログインID</label>
-	<input name="login_id" id="login_id" value="${ registUser.login_id }"><br />
+	<input name="login_id" id="login_id"><br />
 
 	<label for="password">パスワード</label>
-	<input name="password" type="password" id="password" value="${ registUser.password }"/><br />
+	<input name="password" type="password" id="password" /><br />
 
 	<label for="name">名前</label>
-	<input name="name" id="name" value="${ registUser.name }"/><br />
+	<input name="name" id="name"/><br />
 
 	<label for="branch_id">支店名</label>
-	<input name="branch_id" id="branch_id" value="${ registUser.branchName }"/><br />
+	<input name="branch_id" id="branch_id" /><br />
 
 	<label for="role_id">部署.役職</label>
-	<input name="role_id" id="role_id" value="${ registUser.roleName}"/><br />
+	<input name="role_id" id="role_id" /><br />
 
 		<input type="submit" value="登録" /><br />
 		<a href="./">戻る</a>

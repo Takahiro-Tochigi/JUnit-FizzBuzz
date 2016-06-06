@@ -33,6 +33,8 @@ public class SignUpServlet extends HttpServlet {
 
 		List<String> messages = new ArrayList<>();
 
+		System.out.println(request.getParameter("login_id"));//ok
+
 		HttpSession session = request.getSession();
 		if(isValid(request,messages) == true) {
 
@@ -50,34 +52,10 @@ public class SignUpServlet extends HttpServlet {
 			response.sendRedirect("./");
 		}else{
 			session.setAttribute("errormessages", messages);
+			System.out.println(messages);
 			response.sendRedirect("signup");
 		}
-
-	/*	User registUser = getUser(request);
-		session.setAttribute("registUser", registUser);
-
-		if (isValid(request, messages) == true) {
-
-			new UserService().register(registUser);
-			response.sendRedirect("./");
-		} else {
-			session.setAttribute("errorMessages", messages);
-			response.sendRedirect("signup");
-		}*/
 	}
-
-	/*private User getUser(HttpServletRequest request) throws IOException, ServletException{
-
-			User registUser =  new User();
-
-			registUser.setLogin_id(request.getParameter("login_id"));
-			registUser.setPassword(request.getParameter("password"));
-			registUser.setName(request.getParameter("name"));
-			registUser.setgetBranch_id(request.getParameter("branch_id"));
-			registUser.setRole_id(request.getParameter("role_id"));
-
-			return registUser;
-		}*/
 
 	private boolean isValid(HttpServletRequest request, List<String> messages) {
 		String login_id = request.getParameter("login_id");
@@ -92,14 +70,14 @@ public class SignUpServlet extends HttpServlet {
 		if (password.length() < 6 || password.length() > 255) {
 			messages.add("パスワードを入力してください");
 		}
-		if (name.length() < 11){
+		if (name.length() > 11){
 			messages.add("a");
 		}
 		if(StringUtils.isNullOrEmpty(branch_id)){
-			messages.add("a");
+			messages.add("b");
 		}
 		if(StringUtils.isNullOrEmpty(role_id)){
-			messages.add("a");
+			messages.add("c");
 		}
 		// TODO アカウントが既に利用されていないか、メールアドレスが既に登録されていないかなどの確認も必要
 		if (messages.size() == 0) {

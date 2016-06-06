@@ -79,22 +79,19 @@ public class UserDao{
 		PreparedStatement ps =null;
  		try{
  			StringBuilder sql =new StringBuilder();
- 			sql.append("INSERT INTO user( ");
+ 			sql.append("INSERT INTO users( ");
+
  			sql.append(" login_id ");
  			sql.append(", password");
  			sql.append(", name");
  			sql.append(", branch_id");
  			sql.append(", role_id");
- 			sql.append(", insert_date");
- 			sql.append(", update_date");
  			sql.append(")VALUES(");
  			sql.append("?");//logi_id
  			sql.append(",?");//password
  			sql.append(",?");//name
  			sql.append(",?");//branch_id
  			sql.append(",?");//role_id
- 			sql.append(", CURRENT_TIMESTAMP");//insert_date
- 			sql.append(", CURRENT_TIMESTAMP");//update_date
  			sql.append(")");
 
  			ps =  connection.prepareStatement(sql.toString());
