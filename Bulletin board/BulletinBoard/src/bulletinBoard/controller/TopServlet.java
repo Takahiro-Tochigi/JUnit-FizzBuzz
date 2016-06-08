@@ -37,10 +37,5 @@ public class TopServlet extends HttpServlet  {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-
-		/*ここに掲示板の一覧表を表示する処理の作成*/
-
-
-
 	}
 }
