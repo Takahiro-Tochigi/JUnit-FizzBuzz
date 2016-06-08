@@ -1,12 +1,17 @@
 package bulletinBoard.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import bulletinBoard.beans.Message;
+import bulletinBoard.beans.User;
+import bulletinBoard.service.MessageService;
 
 @WebServlet(urlPatterns = { "/index.jsp"})
 public class TopServlet extends HttpServlet  {
@@ -15,6 +20,17 @@ public class TopServlet extends HttpServlet  {
 	@Override
 	protected void doGet (HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException{
+		User user =(User) request.getSession().getAttribute("loginUser");
+		boolean isShowMessageForm;
+		if(user != null ) {
+			isShowMessageForm = true;
+		} else {
+			isShowMessageForm = false;
+		}
+
+		List<Message> messages = new MessageService().getMessage();
+		request.setAttribute("messages",messages);
+		request.setAttribute("isShowMessageForm", isShowMessageForm);
 
 		request.getRequestDispatcher("/top.jsp").forward(request, response);
 	}
