@@ -26,9 +26,21 @@
 					<div class= "category"><c:out value= "${ message.category }" /></div>
 					<div class= "name"><c:out value= "${ message.name }" /></div>
 					<div class= "date"><fmt:formatDate value= "${message.insertdate }" pattern="yyyy/MM/dd HH:mm:ss" /></div>
-					<a href= "comment">コメント</a>
 				</div>
 			</div>
+
+			<div class ="main-contents">
+				<form action ="newComment"  method="post"><br />
+					本文<br/>
+					<textarea name="body" rows="10" cols="50"></textarea>
+
+						<input type="submit" value="コメント" />（500文字まで）<br />
+						<input type="hidden" name="post_id" value="${ message.id }"/><br/>
+
+				</form>
+			</div>
+
+
 		</c:forEach>
 	</div>
 </div>
