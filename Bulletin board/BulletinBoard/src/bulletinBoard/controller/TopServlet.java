@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bulletinBoard.beans.Comment;
 import bulletinBoard.beans.Message;
 import bulletinBoard.beans.User;
+import bulletinBoard.service.CommentService;
 import bulletinBoard.service.MessageService;
 
 @WebServlet(urlPatterns = { "/index.jsp"})
@@ -29,7 +31,9 @@ public class TopServlet extends HttpServlet  {
 		}
 
 		List<Message> messages = new MessageService().getMessage();
+		List<Comment> comment = new CommentService().getComment();
 		request.setAttribute("messages",messages);
+		request.setAttribute("comment",comment);
 		request.setAttribute("isShowMessageForm", isShowMessageForm);
 
 		request.getRequestDispatcher("/top.jsp").forward(request, response);
