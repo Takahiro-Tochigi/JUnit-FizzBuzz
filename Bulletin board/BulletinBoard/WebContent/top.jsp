@@ -29,6 +29,20 @@
 				</div>
 			</div>
 
+
+			<br>コメント<br/>
+
+			<c:forEach items= "${ comment }" var="comment">
+			<c:if test="${ comment.post_id == message.id }">
+				<div class= "comment">
+					<span class= "body"><c:out value= "${ comment.body }"/></span>
+					<div class= "name"><c:out value= "${ comment.name }" /></div>
+					<div class= "date"><fmt:formatDate value= "${ comment.insert_date }" pattern="yyyy/MM/dd HH:mm:ss" /></div>
+				</div>
+			</c:if>
+			</c:forEach>
+
+
 			<div class ="main-contents">
 				<form action ="newComment"  method="post"><br />
 					本文<br/>
@@ -36,11 +50,8 @@
 
 						<input type="submit" value="コメント" />（500文字まで）<br />
 						<input type="hidden" name="post_id" value="${ message.id }"/><br/>
-
 				</form>
 			</div>
-
-
 		</c:forEach>
 	</div>
 </div>
