@@ -104,8 +104,10 @@ public class UserDao{
  		}
 	}
 
-	public void update(Connection connection, User user){
 
+
+	public void update(Connection connection, User user){
+		System.out.println(user.getId());
 		PreparedStatement ps = null;
 		try{
 			StringBuilder sql = new StringBuilder();
@@ -118,7 +120,6 @@ public class UserDao{
 			sql.append(" WHERE");
 			sql.append(" id = ?");
 
-
 			ps = connection.prepareStatement(sql.toString());
 
 			ps.setString(1, user.getLogin_id());
@@ -129,8 +130,6 @@ public class UserDao{
 			ps.setInt(6, user.getId());
 
 			ps.executeUpdate();
-
-
 
 		}catch(SQLException e){
 			throw new SQLRuntimeException(e);
