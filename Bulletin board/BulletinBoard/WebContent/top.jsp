@@ -21,10 +21,15 @@
 		<c:forEach items= "${ messages }" var="message">
 			<div class= "message">
 				<div class= "account-name">
+					件名<br/>
 					<span class= "subject"><c:out value= "${ message.subject }"/></span><br/>
-					<span class= "body"><c:out value= "${ message.body }"/></span>
+					本文<br/>
+					<span class= "body"><c:out value= "${ message.body }"/></span><br/>
+					カテゴリー<br/>
 					<div class= "category"><c:out value= "${ message.category }" /></div>
+					名前<br/>
 					<div class= "name"><c:out value= "${ message.name }" /></div>
+					投稿日時<br/>
 					<div class= "date"><fmt:formatDate value= "${message.insertdate }" pattern="yyyy/MM/dd HH:mm:ss" /></div>
 				</div>
 			</div>
@@ -48,8 +53,8 @@
 					本文<br/>
 					<textarea name="body" rows="10" cols="50"></textarea>
 
-						<input type="submit" value="コメント" />（500文字まで）<br />
-						<input type="hidden" name="post_id" value="${ message.id }"/><br/>
+					<input type="submit" value="コメント" />（500文字まで）<br />
+					<input type="hidden" name="post_id" value="${ message.id }"/><br/>
 				</form>
 			</div>
 		</c:forEach>
