@@ -21,14 +21,18 @@ public class SignUpServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		request.getRequestDispatcher("signup.jsp").forward(request, response);
+		User user =(User) request.getSession().getAttribute("loginUser");
+		if( user != null){
+			request.getRequestDispatcher("signup.jsp").forward(request, response);
+		}else{
+			response.sendRedirect("login");
+		}
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		request.setCharacterEncoding("UTF-8");
 		List<String> messages = new ArrayList<>();
 
 		HttpSession session = request.getSession();
@@ -56,8 +60,8 @@ public class SignUpServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String checkPassword =request.getParameter("checkpassword");
 		String name = request.getParameter("name");
-		String branch_id = request.getParameter("branch_id");
-		String role_id = request.getParameter("role_id");
+		/*String branch_id = request.getParameter("branch_id");
+		String role_id = request.getParameter("role_id");*/
 
 
 		if (login_id.length() < 6 || login_id.length() > 21 ) {

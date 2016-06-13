@@ -42,11 +42,18 @@ public class UserService {
 		Connection connection =null;
 		try{
 			connection=getConnection();
-			String encPassword = CipherUtil.encrypt(user.getPassword());
-			user.setPassword(encPassword);
 
-			UserDao userDao =new UserDao();
-			userDao.update(connection, user);
+			if(!user.getPassword().isEmpty()){
+				System.out.println("パスワード変更");
+				String encPassword = CipherUtil.encrypt(user.getPassword());
+				user.setPassword(encPassword);
+				UserDao userDao =new UserDao();
+				userDao.update(connection, user);
+			}else{
+				System.out.println("パスワード変更しない");
+				UserDao userDao =new UserDao();
+				userDao.update2(connection, user);
+			}
 
 			commit(connection);
 		}catch (RuntimeException e){

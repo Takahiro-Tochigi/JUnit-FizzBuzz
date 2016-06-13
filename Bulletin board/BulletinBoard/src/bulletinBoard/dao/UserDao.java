@@ -107,7 +107,7 @@ public class UserDao{
 
 
 	public void update(Connection connection, User user){
-		System.out.println(user.getId());
+
 		PreparedStatement ps = null;
 		try{
 			StringBuilder sql = new StringBuilder();
@@ -128,6 +128,36 @@ public class UserDao{
 			ps.setInt(4, user.getBranch_id());
 			ps.setInt(5, user.getRole_id());
 			ps.setInt(6, user.getId());
+
+			ps.executeUpdate();
+
+		}catch(SQLException e){
+			throw new SQLRuntimeException(e);
+		}finally{
+
+			close(ps);
+		}
+	}
+	public void update2(Connection connection, User user){
+
+		PreparedStatement ps = null;
+		try{
+			StringBuilder sql = new StringBuilder();
+			sql.append("UPDATE users SET");
+			sql.append(" login_id = ?");
+			sql.append(", name = ?");
+			sql.append(", branch_id = ?");
+			sql.append(", role_id = ?");
+			sql.append(" WHERE");
+			sql.append(" id = ?");
+
+			ps = connection.prepareStatement(sql.toString());
+
+			ps.setString(1, user.getLogin_id());
+			ps.setString(2, user.getName());
+			ps.setInt(3, user.getBranch_id());
+			ps.setInt(4, user.getRole_id());
+			ps.setInt(5, user.getId());
 
 			ps.executeUpdate();
 

@@ -15,7 +15,10 @@
 
 	<div class= "header">
 		<a href= "newMessage">新規投稿</a>
+		<c:if test="${ loginUser.branch_id == 1 }">
 		<a href= "usermaintenance">ユーザー管理画面</a>
+		</c:if>
+		<a href= "logout">ログアウト</a>
 	</div>
 	<div class= "messages">
 		<c:forEach items= "${ messages }" var="message">

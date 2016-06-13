@@ -26,17 +26,19 @@ public class TopServlet extends HttpServlet  {
 		boolean isShowMessageForm;
 		if(user != null ) {
 			isShowMessageForm = true;
+			List<Message> messages = new MessageService().getMessage();
+			List<Comment> comment = new CommentService().getComment();
+			request.setAttribute("messages",messages);
+			request.setAttribute("comment",comment);
+			request.setAttribute("isShowMessageForm", isShowMessageForm);
+
+			request.getRequestDispatcher("/top.jsp").forward(request, response);
 		} else {
 			isShowMessageForm = false;
+			response.sendRedirect("login");
 		}
 
-		List<Message> messages = new MessageService().getMessage();
-		List<Comment> comment = new CommentService().getComment();
-		request.setAttribute("messages",messages);
-		request.setAttribute("comment",comment);
-		request.setAttribute("isShowMessageForm", isShowMessageForm);
 
-		request.getRequestDispatcher("/top.jsp").forward(request, response);
 	}
 	@Override
 	protected void doPost(HttpServletRequest request,
