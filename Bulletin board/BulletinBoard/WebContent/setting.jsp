@@ -39,7 +39,7 @@
 	<label for="role_id">部署.役職</label>
 	<input name="role_id" id="role_id" value="${user.role_id }"/><br />
 
-	<input type="submit" value="登録"  /> <br />
+	<input type="submit" value="更新"  /> <br />
 	<a href="usermaintenance">戻る</a>
 	<input type="hidden" name="user.id" value="${ user.id }"/><br/>
 </form>
