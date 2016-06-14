@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import bulletinBoard.beans.Comment;
 import bulletinBoard.beans.Message;
-import bulletinBoard.beans.User;
 import bulletinBoard.service.CommentService;
 import bulletinBoard.service.MessageService;
 
@@ -22,23 +21,13 @@ public class TopServlet extends HttpServlet  {
 	@Override
 	protected void doGet (HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException{
-		User user =(User) request.getSession().getAttribute("loginUser");
-		boolean isShowMessageForm;
-		if(user != null ) {
-			isShowMessageForm = true;
+
 			List<Message> messages = new MessageService().getMessage();
 			List<Comment> comment = new CommentService().getComment();
 			request.setAttribute("messages",messages);
 			request.setAttribute("comment",comment);
-			request.setAttribute("isShowMessageForm", isShowMessageForm);
 
 			request.getRequestDispatcher("/top.jsp").forward(request, response);
-		} else {
-			isShowMessageForm = false;
-			response.sendRedirect("login");
-		}
-
-
 	}
 	@Override
 	protected void doPost(HttpServletRequest request,

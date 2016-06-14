@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
 
 		String login_id = request.getParameter("login_id");
 		String password = request.getParameter("password");
-		//System.out.println(CipherUtil.encrypt(request.getParameter("password")));
+
 		LoginService loginService = new LoginService();
 		User user = loginService.login(login_id, password);
 
