@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import bulletinBoard.beans.Branch;
 import bulletinBoard.beans.User;
 import bulletinBoard.exception.SQLRuntimeException;
 
@@ -34,10 +35,8 @@ public class UserSettingDao {
 		}catch(SQLException e){
 			throw new SQLRuntimeException(e);
 		}finally{
-
 			close(ps);
 		}
-
 	}
 	private  List<User> toSettingUserList(ResultSet rs) throws SQLException {
 
@@ -47,7 +46,6 @@ public class UserSettingDao {
 			while (rs.next()){
 				int id=rs.getInt("id");
 				String login_id = rs.getString("login_id");
-
 				String password = rs.getString("password");
 				String name = rs.getString("name");
 				int branch_id =rs.getInt("branch_id");
@@ -64,6 +62,44 @@ public class UserSettingDao {
 
 				ret.add(user);
 			}
+			return ret;//取り出した情報をlistに保持
+		}finally{
+			close(rs);
+		}
+	}
+	public List<Branch> userBranch_id(Connection connection, int num){
+		PreparedStatement ps = null;
+		try{
+			StringBuilder sql = new StringBuilder();
+			sql.append("select * from branches");
+			ps = connection.prepareStatement(sql.toString());
+			System.out.println(ps.toString());
+			ResultSet rs = ps.executeQuery();//sql文の実行
+
+			List<Branch> branchList =toBranchList(rs);
+
+			return branchList;
+		}catch(SQLException e){
+			throw new SQLRuntimeException(e);
+		}finally{
+			close(ps);
+		}
+	}
+	private  List<Branch> toBranchList(ResultSet rs) throws SQLException {
+
+		List <Branch> ret = new ArrayList<Branch>();
+
+		try{
+			//帰ってきた複数行のオブジェクトから取り出し
+			while (rs.next()){
+				int id = rs.getInt("id");
+				String branchName = rs.getString("branchname");
+				Branch branch = new Branch();
+				branch.setId(id);
+				branch.setBranchName(branchName);
+				ret.add(branch);
+			}
+			System.out.println(ret);
 			return ret;//取り出した情報をlistに保持
 		}finally{
 			close(rs);

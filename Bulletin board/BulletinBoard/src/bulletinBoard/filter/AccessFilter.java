@@ -21,7 +21,7 @@ public class AccessFilter implements Filter{
 		try{
 			/* フィルタで行う処理 */
 			User user =(User) ((HttpServletRequest) request).getSession().getAttribute("loginUser");
-			int role_id = user.getBranch_id();
+			int role_id = user.getRole_id();
 			if(role_id != 1){
 				System.out.println("権限のないユーザのアクセス");
 				((HttpServletResponse) response).sendRedirect("./");

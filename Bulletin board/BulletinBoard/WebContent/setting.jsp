@@ -25,19 +25,26 @@
 
 <form action="setting" method="post"><br />
 	<label for="login_id">ログインID</label>
-	<input name="login_id" id="login_id" value="${user.login_id }"><br />
+	<br><input name="login_id" id="login_id" value="${user.login_id }"><br />
 
 	<label for="password">パスワード</label>
-	<input name="password" type="password" id="password" /><br />
+	<br><input name="password" type="password" id="password" /><br />
+
+	<label for="checkpassword">確認用パスワード</label>
+	<br><input name="checkpassword"  type="password" id="checkpassword" /><br />
 
 	<label for="name">名前</label>
-	<input name="name" id="name" value="${user.name }"/><br />
+	<br><input name="name" id="name" value="${user.name }"/><br />
 
 	<label for="branch_id">支店名</label>
-	<input name="branch_id" id="branch_id" value="${user.branch_id }"/><br />
+	<br><select name="branch_id">
+	<c:forEach items="${branch_name }" var="branch">
+		<option value="<c:out value="${ branch.id }" />"><c:out value="${ branch.branchName }" /></option>
+	</c:forEach>
+	</select><br/>
 
 	<label for="role_id">部署.役職</label>
-	<input name="role_id" id="role_id" value="${user.role_id }"/><br />
+	<br><input name="role_id" id="role_id" value="${user.role_id }"/><br />
 
 	<input type="submit" value="更新"  /> <br />
 	<a href="usermaintenance">戻る</a>

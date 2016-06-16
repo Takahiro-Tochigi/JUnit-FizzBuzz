@@ -23,7 +23,6 @@ public class UserMaintenanceServlet extends HttpServlet{
 		/*ここに登録者データ一覧表示*/
 		//User user =(User) request.getSession().getAttribute("loginUser");
 
-
 			List<User> users = new UserService().getUser();
 			request.setAttribute("user",users);
 

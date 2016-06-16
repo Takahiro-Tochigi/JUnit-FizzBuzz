@@ -33,11 +33,11 @@
 		<div class = "user">
 
 		<form action="setting" method="get">
-			ログインID<br/>
-			<c:out value="${ user.login_id }" /><br/>
-			名前<br/>
-			<c:out value="${ user.name }" /><br/>
-			<input type="submit" value="編集" /><br />
+			<br>ログインID<br/>・
+			<c:out value="${ user.login_id }" />
+			<br>名前<br/>・
+			<c:out value="${ user.name }" />
+			<br><input type="submit" value="編集" /><br />
 			<input type="hidden" name="user.id" value="${ user.id }"/><br/>
 		</form>
 		</div>

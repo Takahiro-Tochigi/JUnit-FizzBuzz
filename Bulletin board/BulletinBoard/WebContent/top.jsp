@@ -15,43 +15,69 @@
 
 	<div class= "header">
 		<a href= "newMessage">新規投稿</a>
-		<c:if test="${ loginUser.branch_id == 1 }">
+		<c:if test="${ loginUser.role_id == 1 }">
 		<a href= "usermaintenance">ユーザー管理画面</a>
 		</c:if>
 		<a href= "logout">ログアウト</a>
 	</div>
+
+	<div class ="main-contents">
+				<h3>投稿検索</h3>
+				<form action ="./"  method="get"><br />
+					カテゴリー<br/>
+					<textarea name="category" rows="1" cols="10"></textarea><br/>
+
+					<br>日付<br/>
+					<textarea name="startYear" rows="1" cols="4"></textarea>年
+					<textarea name="startMonth" rows="1" cols="4"></textarea>月
+					<textarea name="startDay" rows="1" cols="4"></textarea>日
+					　～　
+					<textarea name="endYear" rows="1" cols="4"></textarea>年
+					<textarea name="endMonth" rows="1" cols="4"></textarea>月
+					<textarea name="endDay" rows="1" cols="4"></textarea>日
+					<br><input type="submit" value="検索" /><br />
+
+					<div>================================================================================================</div>
+
+				</form>
+			</div>
+
+
 	<div class= "messages">
 		<c:forEach items= "${ messages }" var="message">
 			<div class= "message">
 				<div class= "account-name">
-					件名<br/>
+					<div>投稿</div>
+					<br>件名  :
 					<span class= "subject"><c:out value= "${ message.subject }"/></span><br/>
-					本文<br/>
+					<br>本文  :
 					<span class= "body"><c:out value= "${ message.body }"/></span><br/>
-					カテゴリー<br/>
-					<div class= "category"><c:out value= "${ message.category }" /></div>
-					名前<br/>
-					<div class= "name"><c:out value= "${ message.name }" /></div>
-					投稿日時<br/>
-					<div class= "date"><fmt:formatDate value= "${message.insertdate }" pattern="yyyy/MM/dd HH:mm:ss" /></div>
+					<br>カテゴリー:
+					<span class= "category"><c:out value= "${ message.category }" /></span><br/>
+					<br>名前      :
+					<span class= "name"><c:out value= "${ message.name }" /></span><br/>
+					<br>投稿日時  :
+					<span class= "date"><fmt:formatDate value= "${message.insertdate }" pattern="yyyy/MM/dd HH:mm:ss" /></span><br/>
 				</div>
 			</div>
 
 			<div>------------------------------------------------------------------------------------------------</div>
 
-			<br>コメント<br/>
 
 			<c:forEach items= "${ comment }" var="comment">
 			<c:if test="${ comment.post_id == message.id }">
+			<div>コメント</div>
 				<div class= "comment">
-					<span class= "body"><c:out value= "${ comment.body }"/></span>
-					<div class= "name"><c:out value= "${ comment.name }" /></div>
-					<div class= "date"><fmt:formatDate value= "${ comment.insert_date }" pattern="yyyy/MM/dd HH:mm:ss" /></div>
+					<br>本文  :
+					<span class= "body"><c:out value= "${ comment.body }"/></span><br/>
+					<br>名前  :
+					<span class= "name"><c:out value= "${ comment.name }" /></span><br/>
+					<br>コメント日時  :
+					<span class= "date"><fmt:formatDate value= "${ comment.insert_date }" pattern="yyyy/MM/dd HH:mm:ss" /></span><br/>
+					<div>------------------------------------------------------------------------------------------------</div>
 				</div>
 			</c:if>
 			</c:forEach>
-
-			<div>------------------------------------------------------------------------------------------------</div>
 
 			<div class ="main-contents">
 				<form action ="newComment"  method="post"><br />
@@ -59,7 +85,7 @@
 					<textarea name="body" rows="10" cols="50"></textarea>
 
 					<input type="submit" value="コメント" />（500文字まで）<br />
-					<div>======================================================================================================</div>
+					<div>================================================================================================</div>
 					<input type="hidden" name="post_id" value="${ message.id }"/><br/>
 
 				</form>

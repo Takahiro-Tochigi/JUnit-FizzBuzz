@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.mysql.jdbc.StringUtils;
 
+import bulletinBoard.beans.Branch;
 import bulletinBoard.beans.User;
 import bulletinBoard.exception.NoRowsUpdatedRuntimeException;
 import bulletinBoard.service.UserService;
@@ -26,14 +27,15 @@ public class SettingsServlet extends HttpServlet{
 	@Override
 	protected void doGet (HttpServletRequest request,
 		HttpServletResponse response) throws ServletException ,IOException{
-
 		int id =Integer.parseInt(request.getParameter("user.id"));
+
 		UserSettingService usersettingService = new UserSettingService();
 		User user =usersettingService.userSetting(id);
+		List<Branch> branch =usersettingService.userBranch();
 
-		HttpSession session = request.getSession();
+		request.setAttribute("user",user);
 
-		session.setAttribute("user",user);
+		request.setAttribute("branch_name", branch);
 
 		request.getRequestDispatcher("/setting.jsp").forward(request, response);
 
@@ -82,7 +84,8 @@ public class SettingsServlet extends HttpServlet{
 	}
 
 	private boolean isValid(HttpServletRequest request, List<String> messages){
-		String login_id = request.getParameter("login_id");;
+		String login_id = request.getParameter("login_id");
+		String checkPassword =request.getParameter("checkpassword");
 		String name = request.getParameter("name");
 		String branch_id = request.getParameter("branch_id");
 		String role_id = request.getParameter("role_id");
@@ -107,6 +110,10 @@ public class SettingsServlet extends HttpServlet{
 
 			if (password.length() < 6 || password.length() > 255)
 				messages.add("パスワードは6文字以上255文字以下で入力してください");
+
+			if (!password.equals(checkPassword)){
+				messages.add("パスワードが確認用パスワードと一致しません");
+			}
 		}
 		/*if (!password.equals(checkPassword)){
 			messages.add("パスワードが確認用パスワードと一致しません");

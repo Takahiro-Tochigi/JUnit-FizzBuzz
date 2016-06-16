@@ -12,14 +12,32 @@ import java.util.List;
 
 import bulletinBoard.beans.Message;
 import bulletinBoard.exception.SQLRuntimeException;
-
+/*ここに投稿に関するdaoメソッドを集約する*/
 public class UserMessageDao {
-	public List<Message> getUserMessages(Connection connection, int num){
+	public List<Message> getUserMessages(Connection connection, int num,
+			String category, String startDay, String endDay){
 		PreparedStatement ps = null;
 		try{
 			StringBuilder sql = new StringBuilder();
-			sql.append("select * from posts ");
+			sql.append(" select * from posts WHERE ");
+			if(category != null && !("".equals(category))){
+			sql.append(" category LIKE ? AND");
+			}
+			sql.append(" insert_date >= ? 'YYYY/MM/DD HH24:MI:SS' ");
+			sql.append(" AND insert_date < ? 'YYYY/MM/DD HH24:MI:S' ");
+			sql.append(" order by id desc");
+
 			ps = connection.prepareStatement(sql.toString());
+			if( category != null  && !("".equals(category))){
+			ps.setString(1, category);
+			ps.setString(2, startDay);
+			ps.setString(3, endDay);
+			}else{
+			ps.setString(1, startDay);
+			ps.setString(2, endDay);
+			}
+
+			System.out.println(ps.toString());
 
 			ResultSet rs = ps.executeQuery();
 			List<Message> ret = toUserMessageList(rs);
@@ -57,6 +75,5 @@ public class UserMessageDao {
 		}finally{
 			close(rs);
 		}
-
 	}
 }

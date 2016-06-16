@@ -21,13 +21,26 @@ public class TopServlet extends HttpServlet  {
 	@Override
 	protected void doGet (HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException{
+		/*日付検索*/
 
-			List<Message> messages = new MessageService().getMessage();
-			List<Comment> comment = new CommentService().getComment();
-			request.setAttribute("messages",messages);
-			request.setAttribute("comment",comment);
+		String startYear = request.getParameter("startYear");
+		String startMonth = request.getParameter("startMonth");
+		String startDay = request.getParameter("startDay");
+		String endYear = request.getParameter("endYear");
+		String endMonth = request.getParameter("endMonth");
+		String endDay = request.getParameter("endDay");
 
-			request.getRequestDispatcher("/top.jsp").forward(request, response);
+		String start = startYear +'/'+ startMonth +'/'+ startDay;//+" "+ startTime;
+		String end = endYear +'/'+ endMonth +'/'+ endDay; //+ " " +endTime;
+
+		String category = request.getParameter("category");
+
+		List<Message> messages = new MessageService().getMessage(category, start, end);
+		List<Comment> comment = new CommentService().getComment();
+		request.setAttribute("messages",messages);
+		request.setAttribute("comment",comment);
+
+		request.getRequestDispatcher("/top.jsp").forward(request, response);
 	}
 	@Override
 	protected void doPost(HttpServletRequest request,
