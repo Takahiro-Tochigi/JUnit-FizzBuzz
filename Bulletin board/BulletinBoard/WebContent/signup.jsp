@@ -21,23 +21,31 @@
 	<c:remove var="errorMessages" scope="session" />
 </c:if>
 <form action ="signup" method="post"><br />
-	<label for="login_id">ログインID</label>
+	<label for="login_id">ログインID</label><br/>
 	<input name="login_id" id="login_id"><br />
 
-	<label for="password">パスワード</label>
+	<label for="password">パスワード</label><br/>
 	<input name="password" type="password" id="password" /><br />
 
-	<label for="checkpassword">確認用パスワード</label>
+	<label for="checkpassword">確認用パスワード</label><br/>
 	<input name="checkpassword"  type="password" id="checkpassword" /><br />
 
-	<label for="name">名前</label>
+	<label for="name">名前</label><br/>
 	<input name="name" id="name"/><br />
 
 	<label for="branch_id">支店名</label>
-	<input name="branch_id" id="branch_id" /><br />
+	<br><select name="branch_id" >
+	<c:forEach items="${ branch_name }" var="branch" >
+		<option value="${ branch.id }" ><c:out value="${ branch.branchName }" /></option>
+	</c:forEach>
+	</select><br/>
 
 	<label for="role_id">部署.役職</label>
-	<input name="role_id" id="role_id" /><br />
+	<br><select name="role_id">
+	<c:forEach items="${ role_name }" var="role" >
+		<option value="${ role.id }" ><c:out value="${ role.roleName }" /></option>
+	</c:forEach>
+	</select>
 
 		<input type="submit" value="登録" /><br />
 		<a href="./usermaintenance">戻る</a>
