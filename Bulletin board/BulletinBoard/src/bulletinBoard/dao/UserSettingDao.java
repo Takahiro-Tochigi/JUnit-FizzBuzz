@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bulletinBoard.beans.Branch;
+import bulletinBoard.beans.Role;
 import bulletinBoard.beans.User;
 import bulletinBoard.exception.SQLRuntimeException;
 
@@ -98,6 +99,44 @@ public class UserSettingDao {
 				branch.setId(id);
 				branch.setBranchName(branchName);
 				ret.add(branch);
+			}
+			System.out.println(ret);
+			return ret;//取り出した情報をlistに保持
+		}finally{
+			close(rs);
+		}
+	}
+	public List<Role> userRole_id(Connection connection, int num){
+		PreparedStatement ps = null;
+		try{
+			StringBuilder sql = new StringBuilder();
+			sql.append("select * from roles");
+			ps = connection.prepareStatement(sql.toString());
+			System.out.println(ps.toString());
+			ResultSet rs = ps.executeQuery();//sql文の実行
+
+			List<Role> roleList =toRoleList(rs);
+
+			return roleList;
+		}catch(SQLException e){
+			throw new SQLRuntimeException(e);
+		}finally{
+			close(ps);
+		}
+	}
+	private  List<Role> toRoleList(ResultSet rs) throws SQLException {
+
+		List <Role> ret = new ArrayList<Role>();
+
+		try{
+			//帰ってきた複数行のオブジェクトから取り出し
+			while (rs.next()){
+				int id = rs.getInt("id");
+				String roleName = rs.getString("rolename");
+				Role role = new Role();
+				role.setId(id);
+				role.setRoleName(roleName);
+				ret.add(role);
 			}
 			System.out.println(ret);
 			return ret;//取り出した情報をlistに保持

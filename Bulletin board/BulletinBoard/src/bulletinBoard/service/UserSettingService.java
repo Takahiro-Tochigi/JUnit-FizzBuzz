@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import bulletinBoard.beans.Branch;
+import bulletinBoard.beans.Role;
 import bulletinBoard.beans.User;
 import bulletinBoard.dao.UserSettingDao;
 
@@ -58,6 +59,28 @@ public class UserSettingService {
 		}finally{
 			close(connection);
 		}
+	}
 
+	public List<Role> userRole(){
+
+		Connection connection = null;
+		try{
+			connection =getConnection();
+
+			UserSettingDao usersettingDao =new UserSettingDao();
+			List<Role> role = usersettingDao.userRole_id(connection,LIMIT_NUM );
+
+			commit(connection);
+
+			return role;
+		}catch (RuntimeException e){
+			rollback(connection);
+			throw e;
+		}catch(Error e){
+			rollback(connection);
+			throw e;
+		}finally{
+			close(connection);
+		}
 	}
 }

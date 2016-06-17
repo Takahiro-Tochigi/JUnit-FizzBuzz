@@ -134,7 +134,6 @@ public class UserDao{
 		}catch(SQLException e){
 			throw new SQLRuntimeException(e);
 		}finally{
-
 			close(ps);
 		}
 	}
@@ -164,7 +163,6 @@ public class UserDao{
 		}catch(SQLException e){
 			throw new SQLRuntimeException(e);
 		}finally{
-
 			close(ps);
 		}
 	}

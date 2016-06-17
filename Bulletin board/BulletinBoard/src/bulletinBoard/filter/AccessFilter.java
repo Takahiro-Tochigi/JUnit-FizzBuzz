@@ -17,7 +17,7 @@ import bulletinBoard.beans.User;
 @WebFilter(urlPatterns = { "/usermaintenance", "/setting", "/signup" })
 public class AccessFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response,
-    FilterChain chain)throws IOException, ServletException{
+			FilterChain chain)throws IOException, ServletException{
 		try{
 			/* フィルタで行う処理 */
 			User user =(User) ((HttpServletRequest) request).getSession().getAttribute("loginUser");
@@ -34,10 +34,10 @@ public class AccessFilter implements Filter{
 
 	    }
   }
-
+	@Override
   public void init(FilterConfig filterConfig){
   }
-
+	@Override
   public void destroy(){
   }
 }

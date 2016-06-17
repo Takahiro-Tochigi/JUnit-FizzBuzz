@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.mysql.jdbc.StringUtils;
 
 import bulletinBoard.beans.Branch;
+import bulletinBoard.beans.Role;
 import bulletinBoard.beans.User;
 import bulletinBoard.exception.NoRowsUpdatedRuntimeException;
 import bulletinBoard.service.UserService;
@@ -32,10 +33,13 @@ public class SettingsServlet extends HttpServlet{
 		UserSettingService usersettingService = new UserSettingService();
 		User user =usersettingService.userSetting(id);
 		List<Branch> branch =usersettingService.userBranch();
+		List<Role> role =usersettingService.userRole();
+
+
 
 		request.setAttribute("user",user);
-
 		request.setAttribute("branch_name", branch);
+		request.setAttribute("role_name", role);
 
 		request.getRequestDispatcher("/setting.jsp").forward(request, response);
 
@@ -54,7 +58,6 @@ public class SettingsServlet extends HttpServlet{
 
 		if(isValid(request,messages) == true ){
 			try{
-				//System.out.println("update");
 				new UserService().update(user);
 			} catch (NoRowsUpdatedRuntimeException e){
 				session.removeAttribute("editUser");
@@ -71,14 +74,14 @@ public class SettingsServlet extends HttpServlet{
 	}
 	private User getEditUser(HttpServletRequest request)
 		throws IOException, ServletException{
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
 
+		User user = new User();
 		user.setLogin_id(request.getParameter("login_id"));
 		user.setPassword(request.getParameter("password"));
 		user.setName(request.getParameter("name"));
 		user.setBranch_id(Integer.parseInt(request.getParameter("branch_id")));
 		user.setRole_id(Integer.parseInt(request.getParameter("role_id")));
+		user.setId(Integer.parseInt(request.getParameter("user.id")));
 
 		return user;
 	}
@@ -87,7 +90,6 @@ public class SettingsServlet extends HttpServlet{
 		String login_id = request.getParameter("login_id");
 		String checkPassword =request.getParameter("checkpassword");
 		String name = request.getParameter("name");
-		String branch_id = request.getParameter("branch_id");
 		String role_id = request.getParameter("role_id");
 
 		if (StringUtils.isNullOrEmpty(login_id) == true){
@@ -95,9 +97,6 @@ public class SettingsServlet extends HttpServlet{
 		}
 		if (StringUtils.isNullOrEmpty(name)==true){
 			messages.add("名前を入力してください");
-		}
-		if (StringUtils.isNullOrEmpty(branch_id)==true){
-			messages.add("支店番号を入力してください");
 		}
 		if (StringUtils.isNullOrEmpty(role_id)==true){
 			messages.add("部署・役職を入力してください");
