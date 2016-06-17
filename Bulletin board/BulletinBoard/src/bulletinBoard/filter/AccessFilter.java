@@ -17,14 +17,20 @@ import bulletinBoard.beans.User;
 @WebFilter(urlPatterns = { "/usermaintenance", "/setting", "/signup" })
 public class AccessFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain)throws IOException, ServletException{
+    FilterChain chain)throws IOException, ServletException{
 		try{
 			/* フィルタで行う処理 */
 			User user =(User) ((HttpServletRequest) request).getSession().getAttribute("loginUser");
-			int role_id = user.getRole_id();
-			if(role_id != 1){
-				System.out.println("権限のないユーザのアクセス");
-				((HttpServletResponse) response).sendRedirect("./");
+			if(user!= null){
+				int role_id = user.getRole_id();
+				if(role_id != 1){
+					System.out.println("権限のないユーザのアクセス");
+					((HttpServletResponse) response).sendRedirect("./");
+					return;
+				}
+			}else{
+				 System.out.println("不正なアクセス2");
+				((HttpServletResponse) response).sendRedirect("login");
 				return;
 			}
 			chain.doFilter(request, response);
@@ -34,10 +40,10 @@ public class AccessFilter implements Filter{
 
 	    }
   }
-	@Override
+
   public void init(FilterConfig filterConfig){
   }
-	@Override
+
   public void destroy(){
   }
 }

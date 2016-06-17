@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import bulletinBoard.beans.Branch;
+import bulletinBoard.beans.Role;
 import bulletinBoard.beans.User;
 import bulletinBoard.service.UserService;
+import bulletinBoard.service.UserSettingService;
 
 @WebServlet(urlPatterns = { "/signup" })
 public class SignUpServlet extends HttpServlet {
@@ -21,6 +24,13 @@ public class SignUpServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
+		UserSettingService usersettingService = new UserSettingService();
+		List<Branch> branch =usersettingService.userBranch();
+		List<Role> role =usersettingService.userRole();
+		request.setAttribute("branch_name", branch);
+		request.setAttribute("role_name", role);
+
 
 			request.getRequestDispatcher("signup.jsp").forward(request, response);
 

@@ -21,7 +21,7 @@ public class LoginFilter implements Filter{
 		try{
 			User user =(User) ((HttpServletRequest) request).getSession().getAttribute("loginUser");
 			if( user == null ){
-				 System.out.println("不正なアクセス");
+				 System.out.println("不正なアクセス1");
 
 				((HttpServletResponse) response).sendRedirect("login");
 				return;
