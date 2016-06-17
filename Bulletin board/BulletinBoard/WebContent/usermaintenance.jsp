@@ -36,9 +36,13 @@
 			<br>ログインID<br/>・
 			<c:out value="${ user.login_id }" />
 			<br>名前<br/>・
-			<c:out value="${ user.name }" />
-			<br><input type="submit" value="編集" /><br />
-			<input type="hidden" name="user.id" value="${ user.id }"/><br/>
+			<c:out value="${ user.name }" /><br/>
+			<br><input type="submit" value="編集" />
+			<input type="hidden" name="user.id" value="${ user.id }"/>
+		</form>
+		<form action="delete" method="post">
+			<br><input type="submit" value="削除" />
+			<input type="hidden" name="user.id" value="${ user.id }"/>
 		</form>
 		</div>
 		<div class= "comment">

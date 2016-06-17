@@ -74,7 +74,7 @@ public class UserSettingDao {
 			StringBuilder sql = new StringBuilder();
 			sql.append("select * from branches");
 			ps = connection.prepareStatement(sql.toString());
-			System.out.println(ps.toString());
+			//System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();//sql文の実行
 
 			List<Branch> branchList =toBranchList(rs);
@@ -100,7 +100,6 @@ public class UserSettingDao {
 				branch.setBranchName(branchName);
 				ret.add(branch);
 			}
-			System.out.println(ret);
 			return ret;//取り出した情報をlistに保持
 		}finally{
 			close(rs);
@@ -112,7 +111,7 @@ public class UserSettingDao {
 			StringBuilder sql = new StringBuilder();
 			sql.append("select * from roles");
 			ps = connection.prepareStatement(sql.toString());
-			System.out.println(ps.toString());
+
 			ResultSet rs = ps.executeQuery();//sql文の実行
 
 			List<Role> roleList =toRoleList(rs);
@@ -138,10 +137,28 @@ public class UserSettingDao {
 				role.setRoleName(roleName);
 				ret.add(role);
 			}
-			System.out.println(ret);
+			//System.out.println(ret);
 			return ret;//取り出した情報をlistに保持
 		}finally{
 			close(rs);
 		}
+	}
+	public void  userDelete(Connection connection, int id){
+		PreparedStatement ps = null;
+		try{
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("delete from users where id= ?");
+
+			ps = connection.prepareStatement(sql.toString());
+			ps.setInt(1, id);
+			ps.executeUpdate();//sql文の実行
+
+		}catch(SQLException e){
+			throw new SQLRuntimeException(e);
+		}finally{
+			close(ps);
+		}
+
 	}
 }

@@ -23,7 +23,8 @@ public class AccessFilter implements Filter{
 			User user =(User) ((HttpServletRequest) request).getSession().getAttribute("loginUser");
 			if(user!= null){
 				int role_id = user.getRole_id();
-				if(role_id != 1){
+				int branch_id =user.getBranch_id();
+				if(role_id != 1 || branch_id != 1){
 					System.out.println("権限のないユーザのアクセス");
 					((HttpServletResponse) response).sendRedirect("./");
 					return;

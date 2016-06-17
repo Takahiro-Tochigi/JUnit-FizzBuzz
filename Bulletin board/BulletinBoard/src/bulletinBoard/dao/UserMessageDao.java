@@ -37,7 +37,7 @@ public class UserMessageDao {
 			ps.setString(2, endDay);
 			}
 
-			System.out.println(ps.toString());
+			//System.out.println(ps.toString());
 
 			ResultSet rs = ps.executeQuery();
 			List<Message> ret = toUserMessageList(rs);

@@ -83,4 +83,27 @@ public class UserSettingService {
 			close(connection);
 		}
 	}
+
+	public void userDelete(int id){
+
+		Connection connection = null;
+		try{
+			connection =getConnection();
+
+			UserSettingDao usersettingDao =new UserSettingDao();
+			usersettingDao.userDelete(connection, id);
+
+			commit(connection);
+
+		}catch (RuntimeException e){
+			rollback(connection);
+			throw e;
+		}catch(Error e){
+			rollback(connection);
+			throw e;
+		}finally{
+			close(connection);
+		}
+
+	}
 }
