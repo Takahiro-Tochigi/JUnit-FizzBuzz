@@ -13,7 +13,7 @@
 <c:if test="${ not empty errorMessages }">
 	<div class="errormessages">
 		<ul>
-			<c:forEach items ="${errorMessages}" var ="message">
+			<c:forEach items ="${errorMessages}" var ="message ">
 				<li><c:out value ="${message}" />
 			</c:forEach>
 		</ul>
@@ -34,6 +34,7 @@
 	<textarea name="category" rows="1" cols="10"></textarea>
 	<br/>
 		<input type="submit" value="投稿" /><br />
+
 		<a href="./">戻る</a>
 
 </form>

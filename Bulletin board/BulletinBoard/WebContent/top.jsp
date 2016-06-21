@@ -21,30 +21,45 @@
 		<a href= "logout">ログアウト</a>
 	</div>
 
+	<c:if test="${ not empty errorMessages }">
+	<div class="errormessages">
+		<ul>
+			<c:forEach items ="${errorMessages}" var ="message ">
+				<li><c:out value ="${message}" />
+			</c:forEach>
+		</ul>
+	</div>
+	<c:remove var="errorMessages" scope="session"/>
+	</c:if>
+
 	<div class ="main-contents">
-				<h3>投稿検索</h3>
-				<form action ="./"  method="get"><br />
-					カテゴリー<br/>
-					<textarea name="category" rows="1" cols="10"></textarea><br/>
+		<h3>投稿検索</h3>
+		<form action ="./"  method="get"><br />
+			カテゴリー<br/>
+			<textarea name="category" rows="1" cols="10"></textarea><br/>
 
-					<br>日付<br/>
-					<textarea name="startYear" rows="1" cols="4"></textarea>年
-					<textarea name="startMonth" rows="1" cols="4"></textarea>月
-					<textarea name="startDay" rows="1" cols="4"></textarea>日
-					　～　
-					<textarea name="endYear" rows="1" cols="4"></textarea>年
-					<textarea name="endMonth" rows="1" cols="4"></textarea>月
-					<textarea name="endDay" rows="1" cols="4"></textarea>日
-					<br><input type="submit" value="検索" /><br />
+			<br>日付<br/>
+			<textarea name="startYear" rows="1" cols="4"></textarea>年
+			<textarea name="startMonth" rows="1" cols="4"></textarea>月
+			<textarea name="startDay" rows="1" cols="4"></textarea>日
+			　～　
+			<textarea name="endYear" rows="1" cols="4"></textarea>年
+			<textarea name="endMonth" rows="1" cols="4"></textarea>月
+			<textarea name="endDay" rows="1" cols="4"></textarea>日
+			<br><input type="submit" value="検索" /><br />
 
-					<div>================================================================================================</div>
+			<div>================================================================================================</div>
 
-				</form>
-			</div>
+		</form>
+	</div>
+
+
+
+
 
 
 	<div class= "messages">
-		<c:forEach items= "${ messages }" var="message">
+		<c:forEach items= "${ userMessages }" var="message">
 			<div class= "message">
 				<div class= "account-name">
 					<div>投稿</div>
@@ -57,16 +72,25 @@
 					<br>名前      :
 					<span class= "name"><c:out value= "${ message.name }" /></span><br/>
 					<br>投稿日時  :
-					<span class= "date"><fmt:formatDate value= "${message.insertdate }" pattern="yyyy/MM/dd HH:mm:ss" /></span><br/>
+					<span class= "date"><fmt:formatDate value= "${message.insert_date }" pattern="yyyy/MM/dd HH:mm:ss" /></span>
 				</div>
 			</div>
+				<c:if test="${ loginUser.id == message.name_id  }">
+					<form action="messageDelete" method="post">
+						<input type="submit" value="削除" />
+						<input type="hidden" name="message.id" value="${ message.id }"/>
+					</form>
+				</c:if>
+
+
 
 			<div>------------------------------------------------------------------------------------------------</div>
 
 
-			<c:forEach items= "${ comment }" var="comment">
-			<c:if test="${ comment.post_id == message.id }">
+			<c:forEach items= "${ userComment }" var="comment">
+			<c:if test="${ message.id == comment.post_id}">
 			<div>コメント</div>
+
 				<div class= "comment">
 					<br>本文  :
 					<span class= "body"><c:out value= "${ comment.body }"/></span><br/>
@@ -74,6 +98,12 @@
 					<span class= "name"><c:out value= "${ comment.name }" /></span><br/>
 					<br>コメント日時  :
 					<span class= "date"><fmt:formatDate value= "${ comment.insert_date }" pattern="yyyy/MM/dd HH:mm:ss" /></span><br/>
+					<c:if test= "${ loginUser.id == comment.name_id }" >
+					<form action="commentDelete" method="post">
+						<input type="submit" value="削除" />
+						<input type="hidden" name="comment.id" value="${ comment.id }"/>
+					</form>
+					</c:if>
 					<div>------------------------------------------------------------------------------------------------</div>
 				</div>
 			</c:if>
