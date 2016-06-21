@@ -58,7 +58,7 @@ public class UserMessageDao {
 				String subject = rs.getString("subject");
 				String body = rs.getString("body");
 				String category =rs.getString("category");
-				String name = rs.getString("name");
+				int name_id = rs.getInt("name_id");
 				Timestamp insert_date = rs.getTimestamp("insert_date");
 
 				Message message = new Message();
@@ -66,7 +66,7 @@ public class UserMessageDao {
 				message.setSubject(subject);
 				message.setBody(body);
 				message.setCategory(category);
-				message.setName(name);
+				message.setName_id(name_id);
 				message.setInsertdate(insert_date);
 
 				ret.add(message);

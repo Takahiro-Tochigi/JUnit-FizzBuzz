@@ -31,7 +31,7 @@ public class NewCommentServlet extends HttpServlet {
 
 			Comment comment = new Comment();
 			comment.setBody(request.getParameter("body"));
-			comment.setName(user.getName());
+			comment.setName_id(user.getId());
 			comment.setPost_id(Integer.parseInt(request.getParameter("post_id")));
 
 			new CommentService().register(comment);
@@ -39,7 +39,7 @@ public class NewCommentServlet extends HttpServlet {
 			response.sendRedirect("./");
 		}else{
 			session.setAttribute("errormessages", messages);
-			response.sendRedirect("./newComment");
+			response.sendRedirect("./");
 		}
 	}
 

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import bulletinBoard.beans.Comment;
 import bulletinBoard.beans.Message;
+import bulletinBoard.beans.UserComment;
+import bulletinBoard.beans.UserMessage;
 import bulletinBoard.service.CommentService;
 import bulletinBoard.service.MessageService;
 
@@ -21,6 +23,8 @@ public class TopServlet extends HttpServlet  {
 	@Override
 	protected void doGet (HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException{
+
+
 		/*日付検索*/
 
 		String startYear = request.getParameter("startYear");
@@ -35,8 +39,14 @@ public class TopServlet extends HttpServlet  {
 
 		String category = request.getParameter("category");
 
+
+		List<UserMessage> userMessages =new MessageService().getUserMessage();
+		List<UserComment> userComments = new MessageService().getUserComment();
+
 		List<Message> messages = new MessageService().getMessage(category, start, end);
 		List<Comment> comment = new CommentService().getComment();
+		request.setAttribute("userComment", userComments);
+		request.setAttribute("userMessages", userMessages);
 		request.setAttribute("messages",messages);
 		request.setAttribute("comment",comment);
 

@@ -19,8 +19,8 @@ public class MessageDao {
 			sql.append("INSERT INTO posts ( ");
 			sql.append(" subject");
 			sql.append(", body");
+			sql.append(", name_id");
 			sql.append(", category");
-			sql.append(", name");
 			sql.append(", insert_date");
 			sql.append(", update_date");
 			sql.append(")VALUE(");
@@ -36,8 +36,8 @@ public class MessageDao {
 
 			ps.setString(1, message.getSubject());
 			ps.setString(2, message.getBody());
-			ps.setString(3, message.getCategory());
-			ps.setString(4, message.getName());
+			ps.setInt   (3, message.getName_id());
+			ps.setString(4, message.getCategory());
 
 			ps.executeUpdate();
 		}catch(SQLException e){
@@ -46,5 +46,21 @@ public class MessageDao {
 			close(ps);
 		}
 	}
+	public void  messageDelete(Connection connection, int id){
+		PreparedStatement ps = null;
+		try{
 
+			StringBuilder sql = new StringBuilder();
+			sql.append("delete from posts where id= ?");
+			ps = connection.prepareStatement(sql.toString());
+			ps.setInt(1, id);
+			System.out.println(sql.toString());
+			ps.executeUpdate();//sql文の実行
+
+		}catch(SQLException e){
+			throw new SQLRuntimeException(e);
+		}finally{
+			close(ps);
+		}
+	}
 }

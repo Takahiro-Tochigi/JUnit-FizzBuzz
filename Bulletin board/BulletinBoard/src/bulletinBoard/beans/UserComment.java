@@ -1,21 +1,27 @@
 package bulletinBoard.beans;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class Comment implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class UserComment {
+	private int id;
+	private String name ;
 	private String body;
 	private int name_id;
 	private int post_id;
 	private Date insert_date;
 	private Date update_date;
-	private int id ;
+
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getBody() {
 		return body;
@@ -47,4 +53,5 @@ public class Comment implements Serializable {
 	public void setUpdate_date(Date update_date) {
 		this.update_date = update_date;
 	}
+
 }

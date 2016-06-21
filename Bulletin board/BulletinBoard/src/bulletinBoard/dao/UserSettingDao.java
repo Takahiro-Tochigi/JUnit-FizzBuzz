@@ -159,6 +159,6 @@ public class UserSettingDao {
 		}finally{
 			close(ps);
 		}
-
 	}
+
 }

@@ -17,7 +17,7 @@ public class CommentDao {
 			StringBuilder sql =new StringBuilder();
 			sql.append("INSERT INTO comments ( ");
 			sql.append(" body");
-			sql.append(", name");
+			sql.append(", name_id");
 			sql.append(", post_id");
 			sql.append(", insert_date");
 			sql.append(", update_date");
@@ -32,10 +32,46 @@ public class CommentDao {
 			ps = connection.prepareStatement(sql.toString());
 
 			ps.setString(1, comment.getBody());
-			ps.setString(2, comment.getName());
+			ps.setInt(2, comment.getName_id());
 			ps.setInt(3, comment.getPost_id());
 
 			ps.executeUpdate();
+		}catch(SQLException e){
+			throw new SQLRuntimeException(e);
+		}finally{
+			close(ps);
+		}
+	}
+	public void  commentDelete(Connection connection, int id){
+		PreparedStatement ps = null;
+		try{
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("delete from comments where post_id= ?");
+
+			ps = connection.prepareStatement(sql.toString());
+			ps.setInt(1, id);
+			System.out.println(ps.toString());
+			ps.executeUpdate();//sql文の実行
+
+		}catch(SQLException e){
+			throw new SQLRuntimeException(e);
+		}finally{
+			close(ps);
+		}
+	}
+	public void  commentOnlyDelete(Connection connection, int id){
+		PreparedStatement ps = null;
+		try{
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("delete from comments where id= ?");
+
+			ps = connection.prepareStatement(sql.toString());
+			ps.setInt(1, id);
+			System.out.println(ps.toString());
+			ps.executeUpdate();//sql文の実行
+
 		}catch(SQLException e){
 			throw new SQLRuntimeException(e);
 		}finally{

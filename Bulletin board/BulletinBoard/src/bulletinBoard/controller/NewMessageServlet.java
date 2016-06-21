@@ -52,7 +52,8 @@ public class NewMessageServlet extends HttpServlet{
 				message.setSubject((String) request.getParameter("subject"));
 				message.setBody((String) request.getParameter("body"));
 				message.setCategory((String) request.getParameter("category"));
-				message.setName(user.getName());
+				message.setName_id(user.getId());
+
 
 				new MessageService().register(message);
 
