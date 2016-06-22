@@ -9,7 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
+import com.mysql.jdbc.StringUtils;
 
 import bulletinBoard.beans.Branch;
 import bulletinBoard.beans.Role;
@@ -42,8 +43,7 @@ public class SignUpServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		List<String> messages = new ArrayList<>();
 
-		HttpSession session = request.getSession();
-		if(isValid(request,messages) == true) {
+		if(isSignUpValid(request,messages) == true) {
 
 			User user = new User();
 			user.setLogin_id(request.getParameter("login_id"));
@@ -56,36 +56,49 @@ public class SignUpServlet extends HttpServlet {
 
 			response.sendRedirect("usermaintenance");
 		}else{
-			session.setAttribute("errormessages", messages);
-			System.out.println(messages);
-			response.sendRedirect("signup");
+			User user = new User();
+			user.setLogin_id(request.getParameter("login_id"));
+			user.setPassword(request.getParameter("password"));
+			user.setName(request.getParameter("name"));
+			user.setBranch_id(Integer.parseInt(request.getParameter("branch_id")));
+			user.setRole_id(Integer.parseInt(request.getParameter("role_id")));
+
+			UserSettingService usersettingService = new UserSettingService();
+			List<Branch> branch =usersettingService.userBranch();
+			List<Role> role =usersettingService.userRole();
+
+			request.setAttribute("branch_name", branch);
+			request.setAttribute("role_name", role);
+
+
+			request.setAttribute("user", user);
+			request.setAttribute("errormessages", messages);
+			request.getRequestDispatcher("/signup.jsp").forward(request, response);
 		}
 	}
 
-	private boolean isValid(HttpServletRequest request, List<String> messages) {
+	private boolean isSignUpValid(HttpServletRequest request, List<String> messages) {
 		String login_id = request.getParameter("login_id");
 		String password = request.getParameter("password");
 		String checkPassword =request.getParameter("checkpassword");
 		String name = request.getParameter("name");
-		/*String branch_id = request.getParameter("branch_id");
-		String role_id = request.getParameter("role_id");*/
 
 		if (login_id.length() < 6 || login_id.length() > 21 ) {
-			messages.add("ログインIDは6文字以上20文字以下で入力してください");
+			messages.add("ログインIDを6文字以上20文字以下で入力してください");
 		}
 		if (password.length() < 6 || password.length() > 255) {
-			messages.add("パスワードは6文字以上255文字以下で入力してください");
+			messages.add("パスワードを6文字以上255文字以下で入力してください");
 		}
 		if (!password.equals(checkPassword)){
 			messages.add("パスワードが確認用パスワードと一致しません");
 		}
+		if (StringUtils.isNullOrEmpty(name) == true){
+			messages.add("名前を入力してください");
+		}
 		if (name.length() > 11){
-			messages.add("個人名は10文字以下にしてください。");
+			messages.add("名前は10文字以下にしてください。");
 		}
-		/*if(!isNumeric(branch_id)){
 
-		}
-		if*/
 		if (messages.size() == 0) {
 			return true;
 		} else {

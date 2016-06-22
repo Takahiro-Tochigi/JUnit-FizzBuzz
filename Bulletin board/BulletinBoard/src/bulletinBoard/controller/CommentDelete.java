@@ -20,7 +20,6 @@ public class CommentDelete  extends HttpServlet{
 		throws ServletException, IOException{
 
 	int commentId =Integer.parseInt(request.getParameter("comment.id"));
-	System.out.println(commentId);
 	MessageService messageService = new MessageService();
 	messageService.commentOnlyDelete(commentId);
 	response.sendRedirect("./");

@@ -26,7 +26,7 @@ public class NewCommentServlet extends HttpServlet {
 		List<String> messages = new ArrayList<>();
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		if(isValid(request,messages) == true) {
+		if(isCommentValid(request,messages) == true) {
 			User user = (User) session.getAttribute("loginUser");
 
 			Comment comment = new Comment();
@@ -38,19 +38,20 @@ public class NewCommentServlet extends HttpServlet {
 
 			response.sendRedirect("./");
 		}else{
+
 			session.setAttribute("errormessages", messages);
 			response.sendRedirect("./");
 		}
 	}
 
-	private boolean isValid(HttpServletRequest request, List<String> messages) {
+	private boolean isCommentValid(HttpServletRequest request, List<String> messages) {
 		String body = request.getParameter("body");
 
 		if (body.length() >500 ) {
-			messages.add("コメントは500文字以下までです。");
+			messages.add("コメントは500文字以下までです");
 		}
 		if (StringUtils.isNullOrEmpty(body) == true){
-			messages.add("本文を入力してください");
+			messages.add("コメントが入力されていません");
 		}
 		if (messages.size() == 0) {
 			return true;

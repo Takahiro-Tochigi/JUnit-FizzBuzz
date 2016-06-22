@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bulletinBoard.beans.User;
 
-@WebFilter(urlPatterns = { "/index.jsp", "/signup" , "/usermaintenance", "/newComment", "/setting" })
+@WebFilter(urlPatterns = { "/index.jsp", "/signup" , "/usermaintenance", "/newComment", "/setting" ,"/newMessage"})
 public class LoginFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain)throws IOException, ServletException {

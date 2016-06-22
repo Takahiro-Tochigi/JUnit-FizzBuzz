@@ -74,7 +74,7 @@ public class UserSettingDao {
 			StringBuilder sql = new StringBuilder();
 			sql.append("select * from branches");
 			ps = connection.prepareStatement(sql.toString());
-			//System.out.println(ps.toString());
+
 			ResultSet rs = ps.executeQuery();//sql文の実行
 
 			List<Branch> branchList =toBranchList(rs);

@@ -10,7 +10,27 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
 	<title>ユーザー管理画面</title>
 </head>
+<script type="text/javascript">
+
+
+function check(){
+
+	if(window.confirm('本当に削除してもよろしいですか？')){ // 確認ダイアログを表示
+
+		return true; // 「OK」時は送信を実行
+
+	}
+	else{ // 「キャンセル」時の処理
+
+		window.alert('キャンセルされました'); // 警告ダイアログを表示
+		return false; // 送信を中止
+
+	}
+
+}
+</script>
 <body>
+
 <div class="main-contents">
 	<c:if test="${ not empty errorMessages }">
 		<div class="errormessages">
@@ -32,18 +52,23 @@
 	<c:forEach items="${ user }" var="user">
 		<div class = "user">
 
-		<form action="setting" method="get">
+
 			<br>ログインID<br/>・
 			<c:out value="${ user.login_id }" />
 			<br>名前<br/>・
 			<c:out value="${ user.name }" /><br/>
+		<div style="display:inline-flex">
+		<form action="setting" method="get">
 			<br><input type="submit" value="編集" />
 			<input type="hidden" name="user.id" value="${ user.id }"/>
 		</form>
-		<form action="delete" method="post">
+		<c:if test="${ loginUser.id != user.id }">
+		<form action="delete" method="post" onSubmit="return check()" >
 			<br><input type="submit" value="削除" />
 			<input type="hidden" name="user.id" value="${ user.id }"/>
 		</form>
+		</c:if>
+		</div>
 		</div>
 		<div class= "comment">
 		</div>

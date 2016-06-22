@@ -20,7 +20,7 @@ public class MessageDelete  extends HttpServlet{
 		throws ServletException, IOException{
 
 	int messageId =Integer.parseInt(request.getParameter("message.id"));
-	System.out.println(messageId);
+
 	MessageService messageService = new MessageService();
 	messageService.messageDelete(messageId);
 	messageService.commentDelete(messageId);

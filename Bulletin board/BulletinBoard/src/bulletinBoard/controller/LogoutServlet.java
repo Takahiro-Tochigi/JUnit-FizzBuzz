@@ -19,7 +19,7 @@ public class LogoutServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-		session.invalidate();//session
+		session.invalidate();
 
 		resopnse.sendRedirect("login");
 	}

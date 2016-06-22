@@ -21,31 +21,31 @@
 		<a href= "logout">ログアウト</a>
 	</div>
 
-	<c:if test="${ not empty errorMessages }">
+	<c:if test="${ not empty errormessages }">
 	<div class="errormessages">
 		<ul>
-			<c:forEach items ="${errorMessages}" var ="message ">
+			<c:forEach items ="${errormessages}" var ="message">
 				<li><c:out value ="${message}" />
 			</c:forEach>
 		</ul>
 	</div>
-	<c:remove var="errorMessages" scope="session"/>
+	<c:remove var="errormessages" scope="session"/>
 	</c:if>
 
 	<div class ="main-contents">
 		<h3>投稿検索</h3>
 		<form action ="./"  method="get"><br />
 			カテゴリー<br/>
-			<textarea name="category" rows="1" cols="10"></textarea><br/>
-
+			<INPUT type="text" name="category" value="${category}">
 			<br>日付<br/>
-			<textarea name="startYear" rows="1" cols="4"></textarea>年
-			<textarea name="startMonth" rows="1" cols="4"></textarea>月
-			<textarea name="startDay" rows="1" cols="4"></textarea>日
+			<INPUT type="text" size="4" name="startYear" value="${startYear}" >年
+			<INPUT type="text" size="2" name="startMonth" value="${startMonth}">月
+			<INPUT type="text" size="2" name="startDay" value="${startDay}">日
 			　～　
-			<textarea name="endYear" rows="1" cols="4"></textarea>年
-			<textarea name="endMonth" rows="1" cols="4"></textarea>月
-			<textarea name="endDay" rows="1" cols="4"></textarea>日
+			<br>日付<br/>
+			<INPUT type="text" size="4" name="endYear" value="${endYear}">年
+			<INPUT type="text" size="2" name="endMonth" value="${endMonth }">月
+			<INPUT type="text" size="2" name="endDay" value="${endDay}">日
 			<br><input type="submit" value="検索" /><br />
 
 			<div>================================================================================================</div>
@@ -53,13 +53,8 @@
 		</form>
 	</div>
 
-
-
-
-
-
 	<div class= "messages">
-		<c:forEach items= "${ userMessages }" var="message">
+		<c:forEach items= "${ messages }" var="message">
 			<div class= "message">
 				<div class= "account-name">
 					<div>投稿</div>
@@ -87,7 +82,7 @@
 			<div>------------------------------------------------------------------------------------------------</div>
 
 
-			<c:forEach items= "${ userComment }" var="comment">
+			<c:forEach items= "${ comment }" var="comment">
 			<c:if test="${ message.id == comment.post_id}">
 			<div>コメント</div>
 

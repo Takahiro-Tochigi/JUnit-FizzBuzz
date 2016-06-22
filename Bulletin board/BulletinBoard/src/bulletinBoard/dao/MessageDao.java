@@ -54,7 +54,7 @@ public class MessageDao {
 			sql.append("delete from posts where id= ?");
 			ps = connection.prepareStatement(sql.toString());
 			ps.setInt(1, id);
-			System.out.println(sql.toString());
+
 			ps.executeUpdate();//sql文の実行
 
 		}catch(SQLException e){

@@ -51,8 +51,8 @@ public class CommentDao {
 
 			ps = connection.prepareStatement(sql.toString());
 			ps.setInt(1, id);
-			System.out.println(ps.toString());
-			ps.executeUpdate();//sql文の実行
+
+			ps.executeUpdate();
 
 		}catch(SQLException e){
 			throw new SQLRuntimeException(e);
@@ -69,7 +69,7 @@ public class CommentDao {
 
 			ps = connection.prepareStatement(sql.toString());
 			ps.setInt(1, id);
-			System.out.println(ps.toString());
+
 			ps.executeUpdate();//sql文の実行
 
 		}catch(SQLException e){

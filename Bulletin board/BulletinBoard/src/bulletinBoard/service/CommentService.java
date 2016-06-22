@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import bulletinBoard.beans.Comment;
+import bulletinBoard.beans.UserComment;
 import bulletinBoard.dao.CommentDao;
 import bulletinBoard.dao.UserCommentDao;
 
@@ -36,13 +37,13 @@ public class CommentService {
 
 	private static final int LIMIT_NUM = 1000;
 
-	public List<Comment> getComment(){
+	public List<UserComment> getComment(){
 		Connection connection = null;
 		try{
 		connection = getConnection();
 
 		UserCommentDao commentDao = new UserCommentDao();
-		List<Comment> ret  = commentDao.getUserComment(connection, LIMIT_NUM);
+		List<UserComment> ret  = commentDao.getUserComment(connection, LIMIT_NUM);
 
 		commit(connection);
 

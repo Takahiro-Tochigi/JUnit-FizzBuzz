@@ -25,44 +25,45 @@ public class NewMessageServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		User user =(User) request.getSession().getAttribute("loginUser");
-		if( user != null){
 			request.getRequestDispatcher("newmessage.jsp").forward(request, response);
-		}else{
-			response.sendRedirect("login");
-		}
-
 	}
 
+
 	@Override
-		protected void doPost (HttpServletRequest request, HttpServletResponse response)
-				throws IOException,SecurityException{
+	protected void doPost (HttpServletRequest request, HttpServletResponse response)
+			throws IOException,SecurityException, ServletException{
 
-			request.setCharacterEncoding("UTF-8");//文字化けの修正
+		request.setCharacterEncoding("UTF-8");
 
-			HttpSession session = request.getSession();
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("loginUser");
+		List<String> messages = new ArrayList<String>();
 
-			List<String> messages = new ArrayList<String>();
+		if(isValid(request, messages) == true) {
 
-			if(isValid(request, messages) == true) {
-				User user = (User) session.getAttribute("loginUser");
-
-				Message message = new Message();
-				request.setCharacterEncoding("UTF-8");
-				message.setSubject((String) request.getParameter("subject"));
-				message.setBody((String) request.getParameter("body"));
-				message.setCategory((String) request.getParameter("category"));
-				message.setName_id(user.getId());
+			Message message = new Message();
+			request.setCharacterEncoding("UTF-8");
+			message.setSubject((String) request.getParameter("subject"));
+			message.setBody((String) request.getParameter("body"));
+			message.setCategory((String) request.getParameter("category"));
+			message.setName_id(user.getId());
 
 
-				new MessageService().register(message);
+			new MessageService().register(message);
 
-				response.sendRedirect("./");
-			} else {
-				session.setAttribute("errorMessages",messages);
-				response.sendRedirect("./newMessage");
-			}
+			response.sendRedirect("./");
+		} else {
+
+			Message message = new Message();
+			message.setSubject((String) request.getParameter("subject"));
+			message.setBody((String) request.getParameter("body"));
+			message.setCategory((String) request.getParameter("category"));
+
+			request.setAttribute("message",message);
+			request.setAttribute("errorMessages",messages);
+			request.getRequestDispatcher("/newmessage.jsp").forward(request, response);
 		}
+	}
 
 	private boolean isValid(HttpServletRequest request, List<String> messages){
 

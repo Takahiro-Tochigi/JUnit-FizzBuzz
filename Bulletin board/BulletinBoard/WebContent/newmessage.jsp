@@ -13,28 +13,26 @@
 <c:if test="${ not empty errorMessages }">
 	<div class="errormessages">
 		<ul>
-			<c:forEach items ="${errorMessages}" var ="message ">
+			<c:forEach items ="${errorMessages}" var ="message">
 				<li><c:out value ="${message}" />
 			</c:forEach>
 		</ul>
 	</div>
 	<c:remove var="errorMessages" scope="session"/>
-
 </c:if>
 
 <form action ="newMessage"  method="post"><br />
 
 	件名<br/>
-	<textarea name="subject" rows="1" cols="50"></textarea>
+	<INPUT type="text" size="40" name="subject" value ="${ message.subject }">
 	<br/>
 	本文<br/>
-	<textarea name="body" rows="10" cols="100"></textarea>
+	<textarea name="body" rows="10" cols="100" ><c:out value="${ message.body }"></c:out></textarea>
 	<br/>
 	カテゴリー<br/>
-	<textarea name="category" rows="1" cols="10"></textarea>
+	<INPUT type="text" name="category" value="${ message.category }">
 	<br/>
 		<input type="submit" value="投稿" /><br />
-
 		<a href="./">戻る</a>
 
 </form>

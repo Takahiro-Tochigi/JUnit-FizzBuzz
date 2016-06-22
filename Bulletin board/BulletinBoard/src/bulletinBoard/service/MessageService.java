@@ -44,7 +44,7 @@ public class MessageService {
 
 	private static final int LIMIT_NUM = 1000;
 
-	public List<Message> getMessage( String category, String startDay, String endDay){
+	public List<UserMessage> getMessage( String category, String startDay, String endDay){
 		final String DATE_PATTERN ="yyyy/MM/dd HH:mm:ss";
 
 
@@ -69,7 +69,7 @@ public class MessageService {
 		connection = getConnection();
 
 		UserMessageDao messageDao = new UserMessageDao();
-		List<Message> ret  = messageDao.getUserMessages(connection, LIMIT_NUM,  category,  startDay,  endDay);
+		List<UserMessage> ret  = messageDao.getUserMessages(connection, LIMIT_NUM,  category,  startDay,  endDay);
 
 		commit(connection);
 

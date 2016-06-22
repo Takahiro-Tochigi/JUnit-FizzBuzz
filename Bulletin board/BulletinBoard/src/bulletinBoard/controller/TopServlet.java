@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bulletinBoard.beans.Comment;
-import bulletinBoard.beans.Message;
 import bulletinBoard.beans.UserComment;
 import bulletinBoard.beans.UserMessage;
 import bulletinBoard.service.CommentService;
@@ -39,21 +37,23 @@ public class TopServlet extends HttpServlet  {
 
 		String category = request.getParameter("category");
 
+		List<UserMessage> messages = new MessageService().getMessage(category, start, end);
+		List<UserComment> comment = new CommentService().getComment();
 
-		List<UserMessage> userMessages =new MessageService().getUserMessage();
-		List<UserComment> userComments = new MessageService().getUserComment();
 
-		List<Message> messages = new MessageService().getMessage(category, start, end);
-		List<Comment> comment = new CommentService().getComment();
-		request.setAttribute("userComment", userComments);
-		request.setAttribute("userMessages", userMessages);
+
+		request.setAttribute("category",category);
+		request.setAttribute("startYear",startYear);
+		request.setAttribute("startMonth",startMonth);
+		request.setAttribute("startDay",startDay);
+		request.setAttribute("endYear",endYear);
+		request.setAttribute("endMonth",endMonth);
+		request.setAttribute("endDay",endDay);
+
 		request.setAttribute("messages",messages);
 		request.setAttribute("comment",comment);
 
 		request.getRequestDispatcher("/top.jsp").forward(request, response);
 	}
-	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws IOException, ServletException {
-	}
+
 }
