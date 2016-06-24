@@ -15,6 +15,7 @@ import com.mysql.jdbc.StringUtils;
 import bulletinBoard.beans.Branch;
 import bulletinBoard.beans.Role;
 import bulletinBoard.beans.User;
+import bulletinBoard.service.UserSearchService;
 import bulletinBoard.service.UserService;
 import bulletinBoard.service.UserSettingService;
 
@@ -41,35 +42,29 @@ public class SignUpServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+
 		List<String> messages = new ArrayList<>();
+
+		User user = new User();
+		user.setLogin_id(request.getParameter("login_id"));
+		user.setPassword(request.getParameter("password"));
+		user.setName(request.getParameter("name"));
+		user.setBranch_id(Integer.parseInt(request.getParameter("branch_id")));
+		user.setRole_id(Integer.parseInt(request.getParameter("role_id")));
 
 		if(isSignUpValid(request,messages) == true) {
 
-			User user = new User();
-			user.setLogin_id(request.getParameter("login_id"));
-			user.setPassword(request.getParameter("password"));
-			user.setName(request.getParameter("name"));
-			user.setBranch_id(Integer.parseInt(request.getParameter("branch_id")));
-			user.setRole_id(Integer.parseInt(request.getParameter("role_id")));
 
 			new UserService().register(user);
 
 			response.sendRedirect("usermaintenance");
 		}else{
-			User user = new User();
-			user.setLogin_id(request.getParameter("login_id"));
-			user.setPassword(request.getParameter("password"));
-			user.setName(request.getParameter("name"));
-			user.setBranch_id(Integer.parseInt(request.getParameter("branch_id")));
-			user.setRole_id(Integer.parseInt(request.getParameter("role_id")));
-
 			UserSettingService usersettingService = new UserSettingService();
 			List<Branch> branch =usersettingService.userBranch();
 			List<Role> role =usersettingService.userRole();
 
 			request.setAttribute("branch_name", branch);
 			request.setAttribute("role_name", role);
-
 
 			request.setAttribute("user", user);
 			request.setAttribute("errormessages", messages);
@@ -78,11 +73,17 @@ public class SignUpServlet extends HttpServlet {
 	}
 
 	private boolean isSignUpValid(HttpServletRequest request, List<String> messages) {
+
 		String login_id = request.getParameter("login_id");
 		String password = request.getParameter("password");
 		String checkPassword =request.getParameter("checkpassword");
 		String name = request.getParameter("name");
+		//登録されているユーザーのログインIDがあるかの確認
+		User searchUser = new UserSearchService().searchUser(login_id);
 
+		if(searchUser != null){
+			messages.add("このログインIDは既に使用されています");
+		}
 		if (login_id.length() < 6 || login_id.length() > 21 ) {
 			messages.add("ログインIDを6文字以上20文字以下で入力してください");
 		}

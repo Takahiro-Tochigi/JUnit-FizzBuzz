@@ -35,7 +35,7 @@ public class UserCommentDao {
 		List<UserComment> ret = new ArrayList<UserComment>();
 		try{
 			while (rs.next()){
-
+				int id = rs.getInt("id");
 				String name = rs.getString("name");
 				String body = rs.getString("body");
 				int name_id = rs.getInt("name_id");
@@ -44,7 +44,7 @@ public class UserCommentDao {
 
 				UserComment comment = new UserComment();
 
-
+				comment.setId(id);
 				comment.setName(name);
 				comment.setBody(body);
 				comment.setName_id(name_id);

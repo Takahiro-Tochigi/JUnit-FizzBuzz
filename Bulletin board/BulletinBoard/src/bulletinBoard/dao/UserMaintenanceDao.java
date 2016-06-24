@@ -32,6 +32,7 @@ public class UserMaintenanceDao {
 		}
 	}
 
+
 	private List<User> toUsersList(ResultSet rs) throws SQLException{
 
 		List<User> ret = new ArrayList<User>();
@@ -54,4 +55,5 @@ public class UserMaintenanceDao {
 		}
 
 	}
+
 }

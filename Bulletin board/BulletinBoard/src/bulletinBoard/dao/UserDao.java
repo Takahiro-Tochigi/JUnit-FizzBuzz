@@ -39,6 +39,29 @@ public class UserDao{
 			close(ps);
 		}
 	};
+	public List<User> getLoginId(Connection connection){
+
+		PreparedStatement ps = null;
+		try{
+			String sql = "SELECT login_id FROM users ";
+
+			ps =connection.prepareStatement(sql);
+
+			ResultSet rs = ps.executeQuery();//sql文の実行
+			List<User> userList = toUserList(rs);
+			if(userList.isEmpty() == true){
+				return null;
+			}else if (2 <= userList.size()){
+				throw new IllegalStateException("2 <= userList.size()");
+			}else{
+				return userList;
+			}
+		}catch(SQLException e){
+			throw new SQLRuntimeException(e);
+		}finally{
+			close(ps);
+		}
+	};
 
 	private List<User> toUserList(ResultSet rs) throws SQLException {
 

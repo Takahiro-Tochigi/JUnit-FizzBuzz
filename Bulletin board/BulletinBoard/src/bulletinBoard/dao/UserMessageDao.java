@@ -16,16 +16,21 @@ import bulletinBoard.exception.SQLRuntimeException;
 public class UserMessageDao {
 	public List<UserMessage> getUserMessages(Connection connection, int num,
 			String category, String startDay, String endDay){
+		/*
+		System.out.println(startDay);
+		System.out.println(endDay);
+		*/
 		PreparedStatement ps = null;
+
 		try{
 			StringBuilder sql = new StringBuilder();
 			sql.append(" select * from users_posts WHERE ");
 			if(category != null && !("".equals(category))){
-			sql.append(" category LIKE ? AND");
+			sql.append(" category LIKE ?  AND");
 			}
-			sql.append(" insert_date >= ? 'YYYY/MM/DD HH24:MI:SS' ");
-			sql.append(" AND insert_date < ? 'YYYY/MM/DD HH24:MI:S' ");
-			sql.append(" order by id desc");
+			sql.append(" insert_date BETWEEN  ? ");
+			sql.append(" AND ? ");
+			sql.append(" order by insert_date desc ");
 
 			ps = connection.prepareStatement(sql.toString());
 			if( category != null  && !("".equals(category))){
@@ -36,9 +41,6 @@ public class UserMessageDao {
 			ps.setString(1, startDay);
 			ps.setString(2, endDay);
 			}
-
-
-
 			ResultSet rs = ps.executeQuery();
 			List<UserMessage> ret = toUserMessageList(rs);
 			return ret;
@@ -79,4 +81,52 @@ public class UserMessageDao {
 			close(rs);
 		}
 	}
+
+	public  String  getStartDay(Connection connection){
+		PreparedStatement ps = null;
+
+		try{
+			StringBuilder sql = new StringBuilder();
+			sql.append("select insert_date from users_posts");
+			sql.append(" WHERE insert_date  limit 1");
+			ps = connection.prepareStatement(sql.toString());
+			ResultSet rs = ps.executeQuery();
+			String startDay = null;
+			while (rs.next()){
+				startDay = rs.getString("insert_date");
+			}
+			return startDay;
+
+
+		}catch (SQLException e){
+			throw new SQLRuntimeException(e);
+		}finally{
+			close(ps);
+		}
+
+	}
+	public  String  getEndDay(Connection connection){
+		PreparedStatement ps = null;
+
+		try{
+			StringBuilder sql = new StringBuilder();
+			sql.append("select insert_date from users_posts");
+			sql.append(" WHERE insert_date  ORDER BY insert_date desc limit 1");
+			ps = connection.prepareStatement(sql.toString());
+			ResultSet rs = ps.executeQuery();
+			String startDay = null;
+			while (rs.next()){
+				startDay = rs.getString("insert_date");
+			}
+			return startDay;
+
+
+		}catch (SQLException e){
+			throw new SQLRuntimeException(e);
+		}finally{
+			close(ps);
+		}
+
+	}
+
 }
