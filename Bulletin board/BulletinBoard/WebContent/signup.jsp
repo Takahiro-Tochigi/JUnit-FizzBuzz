@@ -10,6 +10,7 @@
 </head>
 <body>
 <div class ="main-contents">
+<h2>新規ユーザー登録</h2>
 <c:if test ="${ not empty errormessages }">
 	<div class ="errormessages">
 		<ul>
@@ -52,6 +53,7 @@
 		<a href="./usermaintenance">戻る</a>
 
 </form>
+<div>------------------------------------------------------------------------------------------------</div>
 <div class ="copyright">Copyright(c) Takahiro Tochigi </div>
 </div>
 </body>

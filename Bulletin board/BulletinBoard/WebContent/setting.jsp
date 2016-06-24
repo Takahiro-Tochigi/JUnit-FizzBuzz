@@ -10,6 +10,8 @@
 	<link href="css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+<h2>ユーザー編集</h2>
+<a href="usermaintenance">戻る</a>
 <div class="main-contents">
 <c:if test ="${ not empty errorMessages }">
 	<div class ="errormessages">
@@ -23,6 +25,7 @@
 </c:if>
 
 <form action="setting" method="post"><br />
+
 	<label for="login_id">ログインID</label>
 	<br><input name="login_id" id="login_id" value="${user.login_id }"><br />
 
@@ -55,10 +58,10 @@
 	<br><input type="submit" value="更新"  /> <br />
 	</div>
 	<div>
-	<a href="usermaintenance">戻る</a>
 	<input type="hidden" name="user.id" value="${ user.id }"/><br/>
 	</div>
 </form>
+<div>------------------------------------------------------------------------------------------------</div>
 <div class="copyright">Copyright(c)Takahiro Tochigi</div>
 </div>
 </body>

@@ -9,9 +9,29 @@
 <head>
 <meta http-equiv= "Content-Type" content="text/html; charset=UTF-8">
 <title>掲示板</title>
+<script type="text/javascript">
+
+
+function check(){
+
+	if(window.confirm('本当に削除してもよろしいですか？')){ // 確認ダイアログを表示
+
+		return true; // 「OK」時は送信を実行
+
+	}
+	else{ // 「キャンセル」時の処理
+
+		window.alert('キャンセルされました'); // 警告ダイアログを表示
+		return false; // 送信を中止
+
+	}
+
+}
+</script>
 </head>
 <body>
 <div class= "main-contents">
+<h2>ホーム画面</h2>
 
 	<div class= "header">
 		<a href= "newMessage">新規投稿</a>
@@ -38,14 +58,44 @@
 			カテゴリー<br/>
 			<INPUT type="text" name="category" value="${category}">
 			<br>日付<br/>
-			<INPUT type="text" size="4" name="startYear" value="${startYear}" >年
-			<INPUT type="text" size="2" name="startMonth" value="${startMonth}">月
-			<INPUT type="text" size="2" name="startDay" value="${startDay}">日
+
+			<select name="startYear">
+			<c:forEach begin="2016" end="2030"  varStatus="status">
+				<option value="${status.index}" <c:if test="${ status.index == startYear }">selected</c:if>><c:out value="${status.index}"/></option>
+			</c:forEach>
+			</select>年
+
+			<select name="startMonth">
+			<c:forEach begin="01" end="12"  varStatus="status">
+				<option value="${status.index}" <c:if test="${ status.index == startMonth }">selected</c:if> ><c:out value="${status.index}"/></option>
+			</c:forEach>
+			</select>月
+
+			<select name="startDay">
+			<c:forEach begin="01" end="31"  varStatus="status">
+				<option value="${status.index}" <c:if test="${ status.index == startDay }">selected</c:if>><c:out value="${status.index}"/></option>
+			</c:forEach>
+			</select>日
 			　～　
 			<br>日付<br/>
-			<INPUT type="text" size="4" name="endYear" value="${endYear}">年
-			<INPUT type="text" size="2" name="endMonth" value="${endMonth }">月
-			<INPUT type="text" size="2" name="endDay" value="${endDay}">日
+			<select name="endYear">
+			<c:forEach begin="2016" end="2030"  varStatus="status">
+				<option value="${status.index}"  <c:if test="${ status.index == endDay }">selected</c:if> ><c:out value="${status.index}"/></option>
+			</c:forEach>
+			</select>年
+
+			<select name="endMonth">
+			<c:forEach begin="01" end="12"  varStatus="status">
+				<option value="${status.index}" <c:if test="${ status.index == endMonth }">selected</c:if> ><c:out value="${status.index}"/></option>
+			</c:forEach>
+			</select>月
+
+			<select name="endDay">
+			<c:forEach begin="01" end="31"  varStatus="status">
+				<option value="${status.index}"<c:if test="${ status.index == endDay }">selected</c:if> ><c:out value="${status.index}"/></option>
+			</c:forEach>
+			</select>日
+
 			<br><input type="submit" value="検索" /><br />
 
 			<div>================================================================================================</div>
@@ -71,7 +121,7 @@
 				</div>
 			</div>
 				<c:if test="${ loginUser.id == message.name_id  }">
-					<form action="messageDelete" method="post">
+					<form action="messageDelete" method="post" onSubmit="return check()">
 						<input type="submit" value="削除" />
 						<input type="hidden" name="message.id" value="${ message.id }"/>
 					</form>
@@ -94,7 +144,7 @@
 					<br>コメント日時  :
 					<span class= "date"><fmt:formatDate value= "${ comment.insert_date }" pattern="yyyy/MM/dd HH:mm:ss" /></span><br/>
 					<c:if test= "${ loginUser.id == comment.name_id }" >
-					<form action="commentDelete" method="post">
+					<form action="commentDelete" method="post" onSubmit="return check()">
 						<input type="submit" value="削除" />
 						<input type="hidden" name="comment.id" value="${ comment.id }"/>
 					</form>

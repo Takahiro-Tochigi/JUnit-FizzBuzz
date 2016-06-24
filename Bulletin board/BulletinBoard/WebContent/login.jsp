@@ -11,6 +11,7 @@
 </head>
 <body>
 <div class="main-contents">
+<h2>ログイン</h2>
 
 <c:if test="${ not empty errorMessages }">
 	<div class="errormessages">
@@ -34,6 +35,10 @@
 
 	<input type="submit" value="ログイン" /><br />
 </form>
+
+<div>------------------------------------------------------------------------------------</div>
+
+
 <div class ="copyright">Copyright(c) Takahiro Tochigi</div>
 </div>
 </body>
