@@ -15,6 +15,7 @@ import com.mysql.jdbc.StringUtils;
 import bulletinBoard.beans.Branch;
 import bulletinBoard.beans.Role;
 import bulletinBoard.beans.User;
+import bulletinBoard.service.UserSearchService;
 import bulletinBoard.service.UserService;
 import bulletinBoard.service.UserSettingService;
 
@@ -82,8 +83,6 @@ public class SettingsServlet extends HttpServlet{
 			request.removeAttribute("user");
 			response.sendRedirect("usermaintenance");
 		}else{
-
-
 			request.setAttribute("user", user);
 
 			UserSettingService usersettingService = new UserSettingService();
@@ -96,6 +95,7 @@ public class SettingsServlet extends HttpServlet{
 			request.getRequestDispatcher("/setting.jsp").forward(request, response);
 		}
 	}
+
 	private User getEditUser(HttpServletRequest request)
 		throws IOException, ServletException{
 
@@ -111,10 +111,16 @@ public class SettingsServlet extends HttpServlet{
 	}
 
 	private boolean isValid(HttpServletRequest request, List<String> messages){
+		int id = Integer.parseInt(request.getParameter("user.id"));
 		String login_id = request.getParameter("login_id");
 		String checkPassword =request.getParameter("checkpassword");
 		String name = request.getParameter("name");
 
+		User searchUser = new UserSearchService().searchUser(login_id);
+
+		if(searchUser != null && id != searchUser.getId()){
+			messages.add("このログインIDは既に使用されています");
+		}
 		if (StringUtils.isNullOrEmpty(login_id) == true){
 			messages.add("ログインIDを入力してください");
 		}
