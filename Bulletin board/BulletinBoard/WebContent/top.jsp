@@ -109,15 +109,15 @@ function check(){
 				<div class= "account-name">
 					<div>投稿</div>
 					<br>件名  :
-					<span class= "subject"><c:out value= "${ message.subject }"/></span><br/>
+					<pre class= "subject"><c:out value= "${ message.subject }"/></pre><br/>
 					<br>本文  :
-					<span class= "body"><c:out value= "${ message.body }"/></span><br/>
+					<pre class= "body"><c:out value= "${ message.body }"/></pre><br/>
 					<br>カテゴリー:
-					<span class= "category"><c:out value= "${ message.category }" /></span><br/>
+					<pre class= "category"><c:out value= "${ message.category }" /></pre><br/>
 					<br>名前      :
-					<span class= "name"><c:out value= "${ message.name }" /></span><br/>
+					<pre class= "name"><c:out value= "${ message.name }" /></pre><br/>
 					<br>投稿日時  :
-					<span class= "date"><fmt:formatDate value= "${message.insert_date }" pattern="yyyy/MM/dd HH:mm:ss" /></span>
+					<pre class= "date"><fmt:formatDate value= "${message.insert_date }" pattern="yyyy/MM/dd HH:mm:ss" /></pre>
 				</div>
 			</div>
 				<c:if test="${ loginUser.id == message.name_id  }">
@@ -138,11 +138,11 @@ function check(){
 
 				<div class= "comment">
 					<br>本文  :
-					<span class= "body"><c:out value= "${ comment.body }"/></span><br/>
+					<pre class= "body"><c:out value= "${ comment.body }"/></pre><br/>
 					<br>名前  :
-					<span class= "name"><c:out value= "${ comment.name }" /></span><br/>
+					<pre class= "name"><c:out value= "${ comment.name }" /></pre><br/>
 					<br>コメント日時  :
-					<span class= "date"><fmt:formatDate value= "${ comment.insert_date }" pattern="yyyy/MM/dd HH:mm:ss" /></span><br/>
+					<pre class= "date"><fmt:formatDate value= "${ comment.insert_date }" pattern="yyyy/MM/dd HH:mm:ss" /></pre><br/>
 					<c:if test= "${ loginUser.id == comment.name_id }" >
 					<form action="commentDelete" method="post" onSubmit="return check()">
 						<input type="submit" value="削除" />

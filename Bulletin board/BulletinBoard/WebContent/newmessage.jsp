@@ -29,7 +29,7 @@
 	<INPUT type="text" size="40" name="subject" value ="${ message.subject }">
 	<br/>
 	本文<br/>
-	<pre><textarea name="body" rows="10" cols="100" ><c:out value="${ message.body }"></c:out></textarea></pre>
+	<textarea name="body" rows="10" cols="100"  ><c:out value="${ message.body }"></c:out></textarea>
 	<br/>
 	カテゴリー<br/>
 	<INPUT type="text" name="category" value="${ message.category }">
