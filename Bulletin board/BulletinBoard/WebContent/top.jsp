@@ -80,7 +80,7 @@ function check(){
 			<br>日付<br/>
 			<select name="endYear">
 			<c:forEach begin="2016" end="2030"  varStatus="status">
-				<option value="${status.index}"  <c:if test="${ status.index == endDay }">selected</c:if> ><c:out value="${status.index}"/></option>
+				<option value="${status.index}"  <c:if test="${ status.index == endYear }">selected</c:if> ><c:out value="${status.index}"/></option>
 			</c:forEach>
 			</select>年
 

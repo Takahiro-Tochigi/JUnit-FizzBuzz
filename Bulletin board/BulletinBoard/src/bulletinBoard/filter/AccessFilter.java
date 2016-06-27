@@ -1,6 +1,8 @@
 package bulletinBoard.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -10,7 +12,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import bulletinBoard.beans.User;
 
@@ -18,6 +19,7 @@ import bulletinBoard.beans.User;
 public class AccessFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response,
     FilterChain chain)throws IOException, ServletException{
+		List<String> messages = new ArrayList<String>();
 		try{
 			/* フィルタで行う処理 */
 			User user =(User) ((HttpServletRequest) request).getSession().getAttribute("loginUser");
@@ -26,12 +28,16 @@ public class AccessFilter implements Filter{
 				int branch_id =user.getBranch_id();
 				if(role_id != 1 || branch_id != 1){
 					System.out.println("権限のないユーザのアクセス");
-					((HttpServletResponse) response).sendRedirect("./");
+					messages.add("権限がありません");
+					request.setAttribute("errormessages",messages);
+					request.getRequestDispatcher("./").forward(request, response);
 					return;
 				}
 			}else{
 				 System.out.println("不正なアクセス2");
-				((HttpServletResponse) response).sendRedirect("login");
+				 messages.add("ログインしてください");
+				 request.setAttribute("errorMessages",messages);
+				 request.getRequestDispatcher("/login.jsp").forward(request, response);
 				return;
 			}
 			chain.doFilter(request, response);

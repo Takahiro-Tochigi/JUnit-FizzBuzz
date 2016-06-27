@@ -33,29 +33,34 @@ public class TopServlet extends HttpServlet  {
 		String endMonth = request.getParameter("endMonth");
 		String endDay = request.getParameter("endDay");
 
-
-
 		String start = startYear +'-'+ startMonth +'-'+ startDay;//+" "+ startTime;
 		String end = endYear +'-'+ endMonth +'-'+ endDay; //+ " " +endTime;
 		String category = request.getParameter("category");
-
 
 		boolean diff = checkDate(start);
 		boolean diff2 = checkDate(end);
 
 		if(diff==true || diff2 ==true){
 			//検索が押されたら
-			request.setAttribute("startYear",startYear);
-			request.setAttribute("startMonth",startMonth);
-			request.setAttribute("startDay",startDay);
-			request.setAttribute("endYear",endYear);
-			request.setAttribute("endMonth",endMonth);
-			request.setAttribute("endDay",endDay);
+			String baseStartYear = request.getParameter("startYear");
+			String baseStartMonth = request.getParameter("startMonth");
+			String baseStartDay = request.getParameter("startDay");
+			String baseEndYear = request.getParameter("endYear");
+			String baseEndMonth = request.getParameter("endMonth");
+			String baseEndDay = request.getParameter("endDay");
 
 			String startTime = "00:00:00";
 			String endTime  = "23:59:59";
 			startDay = start + " " + startTime;
 			endDay = end + " " + endTime;
+
+			request.setAttribute("startYear",baseStartYear);
+			request.setAttribute("startMonth",baseStartMonth);
+			request.setAttribute("startDay",baseStartDay);
+			request.setAttribute("endYear",baseEndYear);
+			request.setAttribute("endMonth",baseEndMonth);
+			request.setAttribute("endDay",baseEndDay);
+
 			List<UserMessage> messages = new MessageService().getMessage(category, startDay, endDay);
 			List<UserComment> comment = new CommentService().getComment();
 			request.setAttribute("messages",messages);
